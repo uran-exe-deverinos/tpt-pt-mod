@@ -10,7 +10,7 @@ void Element::Element_GOLD()
 	Name = "GOLD";
 	Colour = 0xDCAD2C_rgb;
 	MenuVisible = 1;
-	MenuSection = SC_SOLIDS;
+	MenuSection = SC_METALS;
 	Enabled = 1;
 
 	Advection = 0.0f;
@@ -65,9 +65,9 @@ static int update(UPDATE_FUNC_ARGS)
 			if(!r) continue;
 			if(TYP(r)==PT_BMTL && parts[ID(r)].tmp)
 			{
-				//@ GOLD + BMTL -> GOLD + IRON
+				//@ GOLD + BMTL -> GOLD + ctype
 				parts[ID(r)].tmp = 0;
-				sim->part_change_type(ID(r), x+rx, y+ry, PT_IRON);
+				sim->part_change_type(ID(r), x+rx, y+ry, parts[ID(r)].ctype);
 			}
 		}
 	}

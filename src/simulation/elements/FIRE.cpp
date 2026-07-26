@@ -1,5 +1,6 @@
 #include "simulation/ElementCommon.h"
 #include "FIRE.h"
+#include <iostream>
 #include <algorithm>
 
 static int updateLegacy(UPDATE_FUNC_ARGS);
@@ -174,21 +175,24 @@ int Element_FIRE_update(UPDATE_FUNC_ARGS)
 				auto rt = TYP(r);
 
 				//THRM burning
-				if (rt==PT_THRM && (t==PT_FIRE || t==PT_PLSM || t==PT_LAVA))
+				int ignitiontemp = parts[ID(r)].tmp2+273; // thermite's burn temp (K)
+				if (rt==PT_THRM && (t==PT_FIRE || t==PT_PLSM || t==PT_LAVA) && ignitiontemp <= parts[i].temp)
 				{
-					//@ FIRE/PLSM/LAVA + THRM -> FIRE/PLSM/LAVA + LAVA(BMTL/THRM)
-					if (sim->rng.chance(1, 500)) {
-						sim->part_change_type(ID(r),x+rx,y+ry,PT_LAVA);
-						parts[ID(r)].ctype = PT_BMTL;
-						parts[ID(r)].temp = 3500.0f;
-						sim->pv[(y+ry)/CELL][(x+rx)/CELL] += 50.0f;
-					} else {
-						sim->part_change_type(ID(r),x+rx,y+ry,PT_LAVA);
-						parts[ID(r)].life = 400;
-						parts[ID(r)].ctype = PT_THRM;
-						parts[ID(r)].temp = 3500.0f;
-						parts[ID(r)].tmp = 20;
-					}
+					float burnResult = restrict_flt((ignitiontemp-273)*2.0f+273, MIN_TEMP, MAX_TEMP);
+					if(sim->rng.chance(1,std::max(parts[ID(r)].tmp3,1)))
+						//@ FIRE/PLSM/LAVA + THRM -> FIRE/PLSM/LAVA + LAVA(BMTL/THRM)
+						if (sim->rng.chance(1, 500)) {
+							sim->part_change_type(ID(r),x+rx,y+ry,PT_LAVA);
+							parts[ID(r)].ctype = PT_BMTL;
+							parts[ID(r)].temp = burnResult;
+							sim->pv[(y+ry)/CELL][(x+rx)/CELL] += 50.0f;
+						} else {
+							sim->part_change_type(ID(r),x+rx,y+ry,PT_LAVA);
+							parts[ID(r)].life = 400;
+							parts[ID(r)].ctype = PT_THRM;
+							parts[ID(r)].temp = burnResult;
+							parts[ID(r)].tmp = 20;
+						}
 					continue;
 				}
 

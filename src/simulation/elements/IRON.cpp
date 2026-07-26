@@ -8,7 +8,7 @@ void Element::Element_IRON()
 	Name = "IRON";
 	Colour = 0x707070_rgb;
 	MenuVisible = 1;
-	MenuSection = SC_SOLIDS;
+	MenuSection = SC_METALS;
 	Enabled = 1;
 
 	Advection = 0.0f;
@@ -65,8 +65,13 @@ static int update(UPDATE_FUNC_ARGS)
 							return true;
 						break;
 					case PT_SLTW:
-						//@ IRON + SLTW -> BMTL + SLTW
+						//@ IRON + SLTW/PTWT -> BMTL + SLTW
 						if (sim->rng.chance(1, 67))
+							return true;
+						break;
+					case PT_CLWT:
+						//@ IRON + CLWT -> BMTL + CLWT
+						if (sim->rng.chance(1, 70))
 							return true;
 						break;
 					case PT_WATR:
@@ -94,6 +99,7 @@ static int update(UPDATE_FUNC_ARGS)
 	{
 		sim->part_change_type(i,x,y,PT_BMTL);
 		parts[i].tmp = sim->rng.between(20, 29);
+		parts[i].ctype = PT_IRON;
 	}
 	return 0;
 }

@@ -2745,7 +2745,8 @@ bool SimulationImpl::TransitionPhase(int i, const Neighbourhood &neighbourhood)
 				if (parts[i].ctype==PT_THRM&&parts[i].tmp>0)
 				{
 					parts[i].tmp--;
-					parts[i].temp = 3500;
+					// sustained burn temperature scales with the thermite's burn temp (tmp2)
+					parts[i].temp = restrict_flt((parts[i].tmp2+273)*2.0f, MIN_TEMP, MAX_TEMP);
 				}
 				if (parts[i].ctype==PT_PLUT&&parts[i].tmp>0)
 				{
@@ -3746,7 +3747,7 @@ void Simulation::BeforeSim(bool willUpdate)
 			FrameTime::Span span(frameTime, "Air::update_air");
 			air->update_air();
 		}
-
+		
 		if(aheat_enable)
 			air->update_airh();
 

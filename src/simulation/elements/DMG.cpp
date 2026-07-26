@@ -100,6 +100,7 @@ static int update(UPDATE_FUNC_ARGS)
 										{
 											sim->part_change_type(ID(rr), x+nxi, y+nxj, PT_BRMT);
 											parts[ID(rr)].ctype = PT_TUNG;
+											parts[i].tmp=181172159;
 										}
 										else if (t == PT_WOOD) //@ DMG + WOOD -> SAWD
 											sim->part_change_type(ID(rr), x+nxi, y+nxj, PT_SAWD);

@@ -9,6 +9,11 @@ protected:
 
 public:
 	// potentially clobbers gravIn
+	// ---------------------------------------------------------
+	// mod maker here... what the hell are you taking about?????
+	// what does this mean ??????? whuh??????????
+	// ---------------------------------------------------------
+
 	void Exchange(GravityOutput &gravOut, GravityInput &gravIn, bool forceRecalc);
 
 	static GravityPtr Create();

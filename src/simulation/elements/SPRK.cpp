@@ -60,6 +60,56 @@ static int update(UPDATE_FUNC_ARGS)
 	int ct = parts[i].ctype;
 	Element_FIRE_update(UPDATE_FUNC_SUBCALL_ARGS);
 
+	auto electrolize = [&](){
+		for (auto rx = -1; rx <= 1; rx++)
+		{
+			for (auto ry = -1; ry <= 1; ry++)
+			{
+				if (rx || ry)
+				{
+					auto r = pmap[y+ry][x+rx];
+					if (!r)
+						continue;
+					if (TYP(r)==PT_DSTW || TYP(r)==PT_WATR)
+					{
+						int rndstore = sim->rng.gen()%100;//water->H2+O2
+						if (!rndstore)
+							sim->part_change_type(ID(r),x+rx,y+ry,PT_O2);
+						else if (3 > rndstore)
+							sim->part_change_type(ID(r),x+rx,y+ry,PT_H2);
+					}else if (TYP(r)==PT_SLTW)
+					{
+						int rndstore = sim->rng.gen()%100;//salt water->base+chlorine+H2
+						if (!rndstore)
+							sim->part_change_type(ID(r),x+rx,y+ry,PT_CLOR);
+						else if (3 > rndstore)
+							sim->part_change_type(ID(r),x+rx,y+ry,PT_H2);
+						else if (4 > rndstore)
+						{
+							sim->part_change_type(ID(r),x+rx,y+ry,PT_BASE);
+							parts[ID(r)].life = 10;
+						}
+					}else if (TYP(r)==PT_LAVA)//molten stuff electrolysis
+					{
+						switch(parts[ID(r)].ctype){
+							case PT_SALT://salt ->clor/sodm
+								int rndstore = sim->rng.gen()%100;
+
+								if(rndstore==0){
+									sim->part_change_type(ID(r),x+rx,y+ry,PT_CLOR);
+									parts[ID(r)].temp -= 100;
+								}else if(rndstore==1){
+									parts[ID(r)].ctype=PT_SODM;
+									parts[ID(r)].temp -= 100;
+								}
+								break;
+						}
+					}
+				}
+			}
+		}
+	};
+
 	if (parts[i].life<=0)
 	{
 		if (ct==PT_WATR||ct==PT_SLTW||ct==PT_PSCN||ct==PT_NSCN||ct==PT_ETRD||ct==PT_INWR)
@@ -167,27 +217,10 @@ static int update(UPDATE_FUNC_ARGS)
 		}
 		break;
 	case PT_IRON:
-		for (auto rx = -1; rx <= 1; rx++)
-		{
-			for (auto ry = -1; ry <= 1; ry++)
-			{
-				if (rx || ry)
-				{
-					auto r = pmap[y+ry][x+rx];
-					if (!r)
-						continue;
-					if (TYP(r)==PT_DSTW || TYP(r)==PT_SLTW || TYP(r)==PT_WATR)
-					{
-						int rndstore = sim->rng.gen()%100;
-						//@ IRON + DSTW/SLTW/WATR -> IRON + O2/H2
-						if (!rndstore)
-							sim->part_change_type(ID(r),x+rx,y+ry,PT_O2);
-						else if (3 > rndstore)
-							sim->part_change_type(ID(r),x+rx,y+ry,PT_H2);
-					}
-				}
-			}
-		}
+		electrolize();
+		break;
+	case PT_CPPR:
+		electrolize();
 		break;
 	case PT_TUNG:
 		if(parts[i].temp < 3595.0){
@@ -245,7 +278,7 @@ static int update(UPDATE_FUNC_ARGS)
 							}
 					}
 					continue;
-				case PT_PUMP: case PT_GPMP: case PT_HSWC: case PT_PBCN:
+				case PT_PUMP: case PT_GPMP: case PT_HSWC: case PT_PBCN: case PT_TMMR:
 					if (parts[i].life<4)// PROP_PTOGGLE, Maybe? We seem to use 2 different methods for handling actived elements, this one seems better. Yes, use this one for new elements, PCLN is different for compatibility with existing saves
 					{
 						if (sender==PT_PSCN) parts[ID(r)].life = 10;

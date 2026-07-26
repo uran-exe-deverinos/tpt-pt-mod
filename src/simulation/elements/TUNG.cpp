@@ -11,7 +11,7 @@ void Element::Element_TUNG()
 	Name = "TUNG";
 	Colour = 0x505050_rgb;
 	MenuVisible = 1;
-	MenuSection = SC_ELEC;
+	MenuSection = SC_METALS;
 	Enabled = 1;
 
 	Advection = 0.0f;
@@ -109,6 +109,7 @@ static int update(UPDATE_FUNC_ARGS)
 		//@ TUNG -> BRMT(TUNG)
 		sim->part_change_type(i,x,y,PT_BRMT);
 		parts[i].ctype = PT_TUNG;
+		parts[i].tmp=161152139;
 		return 1;
 	}
 	parts[i].tmp3 = press;

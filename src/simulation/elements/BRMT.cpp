@@ -1,6 +1,7 @@
 #include "simulation/ElementCommon.h"
 
 static int update(UPDATE_FUNC_ARGS);
+static int graphics(GRAPHICS_FUNC_ARGS);
 
 void Element::Element_BRMT()
 {
@@ -31,7 +32,7 @@ void Element::Element_BRMT()
 	HeatConduct = 211;
 	Description = "Broken metal. Created when iron rusts or when metals break from pressure.";
 
-	Properties = TYPE_PART|PROP_CONDUCTS|PROP_LIFE_DEC|PROP_HOT_GLOW;
+	Properties = TYPE_PART|PROP_LIFE_DEC|PROP_HOT_GLOW;
 	CarriesTypeIn = 1U << FIELD_CTYPE;
 
 	LowPressure = IPL;
@@ -40,14 +41,33 @@ void Element::Element_BRMT()
 	HighPressureTransition = NT;
 	LowTemperature = ITL;
 	LowTemperatureTransition = NT;
-	HighTemperature = 1273.0f;
+	HighTemperature = MAX_TEMP;
 	HighTemperatureTransition = ST; //@ BRMT -> LAVA(BMTL)
 
 	Update = &update;
+	Graphics = &graphics;
 }
 
 static int update(UPDATE_FUNC_ARGS)
 {
+	auto &sd = SimulationData::CRef();
+	auto &elements = sd.elements;
+
+	// Melt at the original metal's melting point + a lil extra
+	// Honestly this stuff sucks
+	int metal = parts[i].ctype;
+	if (metal <= 0 || metal >= PT_NUM || metal == PT_LAVA || !elements[metal].Enabled)
+		metal = PT_BMTL;
+	if (parts[i].temp >= elements[metal].HighTemperature+30)
+	{
+		//@ BRMT -> molten somthing(original metal)
+		sim->part_change_type(i, x, y, PT_LAVA);
+		parts[i].ctype = metal;
+		parts[i].life = int(restrict_flt((parts[i].temp-700)/7, 0, 400));
+		parts[i].tmp = 0;//cause christ was that a high value
+		return 1;
+	}
+
 	if (parts[i].temp > 523.15f)//250.0f+273.15f
 	{
 		auto tempFactor = int(1000 - ((523.15f-parts[i].temp)*2));
@@ -76,5 +96,17 @@ static int update(UPDATE_FUNC_ARGS)
 			}
 		}
 	}
+
+	return 0;
+}
+
+static int graphics(GRAPHICS_FUNC_ARGS)//holy moly im so proud of this code
+{
+	
+	if(cpart->ctype!=PT_NONE){
+		auto h = cpart->tmp;
+		*colr = (h/1000000)%1000;
+		*colg = (h/1000)%1000;
+		*colb = h%1000;}
 	return 0;
 }

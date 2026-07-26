@@ -195,6 +195,18 @@ simulation_elem_names = [
 	'RSSS',
 	'BASE',
 	'SEED',
+	'TEST',
+	'CLOR',
+	'CLWT',
+	'BLCH',
+	'STTC',
+	'SODM',
+	'SDMO',
+	'LSDM',
+	'CPPR',
+	'ZINC',
+	'LCLR',
+	'TMMR'
 ]
 
 simulation_elem_src = []

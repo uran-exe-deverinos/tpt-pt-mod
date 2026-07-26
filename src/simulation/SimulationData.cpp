@@ -93,6 +93,8 @@ static std::vector<menu_section> LoadMenus()
 		{0xE057, String("Tools"), 0, 1},
 		{0xE067, String("Favorites"), 0, 1},
 		{0xE064, String("Decoration tools"), 0, 1},
+		{0xE101, String("Reactive"),0,1},
+		{0xE102, String("Metals"),0,1},
 	};
 }
 
@@ -282,11 +284,19 @@ String SimulationData::BasicParticleInfo(Particle const &sample_part) const
 	{
 		sampleInfo << "Molten " << ElementResolve(ctype, -1);
 	}
+	else if(type == PT_BRMT && IsElement(ctype))
+	{
+		sampleInfo << "Rusted " << ElementResolve(ctype, -1);
+	}
 	else if ((type == PT_PIPE || type == PT_PPIP) && IsElement(ctype))
 	{
 		if (ctype == PT_LAVA && IsElement(storedCtype))
 		{
 			sampleInfo << ElementResolve(type, -1) << " with molten " << ElementResolve(storedCtype, -1);
+		}
+		else if (ctype == PT_BRMT && IsElement(storedCtype))
+		{
+			sampleInfo << ElementResolve(type, -1) << " with rusted " << ElementResolve(storedCtype, -1);
 		}
 		else
 		{

@@ -1,4 +1,7 @@
 #include "simulation/ElementCommon.h"
+#include <iostream>
+#include <string>
+using namespace std;
 
 static int update(UPDATE_FUNC_ARGS);
 
@@ -35,18 +38,40 @@ void Element::Element_BMTL()
 
 	LowPressure = IPL;
 	LowPressureTransition = NT;
-	HighPressure = 1.0f;
-	HighPressureTransition = ST;
+	HighPressure = IPH;
+	HighPressureTransition = NT;
 	LowTemperature = ITL;
 	LowTemperatureTransition = NT;
 	HighTemperature = 1273.0f;
-	HighTemperatureTransition = PT_LAVA; //@ BMTL -> LAVA(BMTL)
+	HighTemperatureTransition = NT; //@ BMTL -> LAVA(BMTL)
 
 	Update = &update;
 }
 
 static int update(UPDATE_FUNC_ARGS)
 {
+	auto &sd = SimulationData::CRef();
+	auto &elements = sd.elements;
+	if(sim->pv[y/CELL][x/CELL]>=1.0f){
+		sim->part_change_type(i,x,y,PT_BRMT);
+		parts[i].tmp = 112080096;
+	}
+	// https://i.imgflip.com/6gp1di.jpg
+	// I LOVE [reusing code] CHARLIE
+	// I LOVE [reusing code] !1!!!11!
+	// Melt at the original metal's melting point
+	int metal = parts[i].ctype;
+	if (metal <= 0 || metal >= PT_NUM || metal == PT_LAVA || !elements[metal].Enabled)
+		metal = PT_BMTL;
+	if (parts[i].temp >= elements[metal].HighTemperature+10)
+	{
+		//@ BRMT -> molten somthing(original metal)
+		sim->part_change_type(i, x, y, PT_LAVA);
+		parts[i].ctype = metal;
+		parts[i].life = int(restrict_flt((parts[i].temp-700)/7, 0, 400));
+		parts[i].tmp = 0;
+		return 1;
+	}
 	if (parts[i].tmp>1)
 	{
 		parts[i].tmp--;
@@ -62,6 +87,7 @@ static int update(UPDATE_FUNC_ARGS)
 					if ((TYP(r)==PT_METL || TYP(r)==PT_IRON) && sim->rng.chance(1, 100))
 					{
 						//@ BMTL + METL/IRON -> 2xBMTL
+						parts[ID(r)].ctype=parts[ID(r)].type;
 						sim->part_change_type(ID(r),x+rx,y+ry,PT_BMTL);
 						parts[ID(r)].tmp = (parts[i].tmp<=7) ? parts[i].tmp=1 : parts[i].tmp - sim->rng.between(0, 4);
 					}
@@ -72,8 +98,10 @@ static int update(UPDATE_FUNC_ARGS)
 	else if (parts[i].tmp==1 && sim->rng.chance(1, 1000))
 	{
 		//@ BMTL -> BRMT
-		parts[i].tmp = 0;
+		
+		parts[i].tmp = 112080096;
 		sim->part_change_type(i,x,y,PT_BRMT);
 	}
+
 	return 0;
 }

@@ -8,7 +8,7 @@ void Element::Element_MERC()
 	Name = "MERC";
 	Colour = 0x736B6D_rgb;
 	MenuVisible = 1;
-	MenuSection = SC_LIQUID;
+	MenuSection = SC_METALS;
 	Enabled = 1;
 
 	Advection = 0.4f;

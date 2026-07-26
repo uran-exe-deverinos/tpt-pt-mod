@@ -148,7 +148,7 @@ static int update(UPDATE_FUNC_ARGS)
 static int graphics(GRAPHICS_FUNC_ARGS)
 {
 	int z = cpart->tmp2 - 20;//speckles!
-	*colr += z * 1;
+	*colr += z * 20;
 	*colg += z * 2;
 	*colb += z * 8;
 	return 0;

@@ -897,6 +897,7 @@ void LuaElements::Open(lua_State *L)
 	LCONST(UPDATE_REPLACE);
 	LCONST(UPDATE_BEFORE);
 	LCONST(NUM_UPDATEMODES);
+	LCONST(PROP_CONNECTS);
 #undef LCONSTAS
 #undef LCONST
 	lua_pushvalue(L, -1);

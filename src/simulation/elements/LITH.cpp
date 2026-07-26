@@ -9,7 +9,7 @@ void Element::Element_LITH()
 	Name = "LITH";
 	Colour = 0xB6AABF_rgb;
 	MenuVisible = 1;
-	MenuSection = SC_EXPLOSIVE;
+	MenuSection = SC_REACTIVE;
 	Enabled = 1;
 
 	Advection = 0.2f;

@@ -20,7 +20,7 @@ void Element::Element_PROT()
 	Loss = 1.00f;
 	Collision = -.99f;
 	Gravity = 0.0f;
-	Diffusion = 0.00f;
+	Diffusion = 0.0f;
 	HotAir = 0.000f	* CFDS;
 	Falldown = 0;
 
@@ -29,7 +29,7 @@ void Element::Element_PROT()
 	Meltable = 0;
 	Hardness = 0;
 
-	Weight = -1;
+	Weight = 0;
 
 	HeatConduct = 61;
 	Description = "Protons. Transfer heat to materials, and remove sparks.";
