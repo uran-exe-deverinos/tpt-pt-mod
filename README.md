@@ -1,5 +1,9 @@
 The Powder Toy - June 2026
-==========================
+===================================================================================
+mod dev note:
+===================================================================================
+note: the following is the readme of the normal game, I don't have anything to say
+===================================================================================
 
 Get the latest version [from the Powder Toy website](https://powdertoy.co.uk/Download.html). We're also on [Steam](https://store.steampowered.com/app/1148350/The_Powder_Toy/).
 
