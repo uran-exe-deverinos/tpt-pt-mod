@@ -1,3 +1,24 @@
 # This file is used by the starcatcher.us update server to pull changelogs for mod releases
 # Erase and replace the changelog for every release, do not just append changes to the end
 # Lines starting with # and empty lines are ignored
+
+0.02 (forgot to put changelog before)
+
+added copper - blocks pressure, great heat conductor, reflects lightning
+added chlorine - gas that makes chlorine water and bleach, stops life reproduction and also kills life
+added chlorine water -doesnt do much now, just makes bleach
+added bleach - kills LIFE, PLNT, and VINE
+added sodium and it's oxide - makes salt when burned with chlorine and explodes on contact with water
+added zinc - breaks into BRMT when at high pressure and low temprature, but at higher tempratures acts like GOO
+added thermostat - when on, surrounding objects take it's temprature
+
+changes:
+BRMT-now can be a custom color and melts at original metal's temprature
+all metals that change into BRMT now have custom color and say "rusted (element)"
+LIGH now reflects off copper
+THRM now has different properties for different BRMT (not really cause reaction not added yet)
+added 2 new tabs in menu
+
+NOTE!!!
+this mod is still in development so there is a lotta not finished stuff
+sorry.
