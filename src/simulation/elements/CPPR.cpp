@@ -1,5 +1,7 @@
 #include "simulation/ElementCommon.h"
 #include "simulation/Air.h"
+#include <iostream>
+#include <algorithm>
 
 static int update(UPDATE_FUNC_ARGS);
 static int graphics(GRAPHICS_FUNC_ARGS);

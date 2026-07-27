@@ -1,5 +1,6 @@
 #include "simulation/ElementCommon.h"
-
+#include <iostream>
+#include <algorithm>
 #include "graphics/Pixel.h"
 
 static int update(UPDATE_FUNC_ARGS);
@@ -151,6 +152,10 @@ static int update(UPDATE_FUNC_ARGS)
 						parts[ID(r)].ctype = PT_HEAC;
 					}
 					break;
+				case PT_CPPR:
+					parts[i].tmp = (int(atan2f(float(ry), float(-rx)) * 180.0f / std::numbers::pi_v<float>) + sim->rng.between(-20, 20) + 360) % 360;
+					parts[i].temp = restrict_flt(parts[i].temp * 0.95f, MIN_TEMP, MAX_TEMP);//mmmmm math
+					break;
 				default:
 					break;
 				}
@@ -226,6 +231,28 @@ static bool create_LIGH(Simulation * sim, int x, int y, int c, float temp, int l
 	else if (x >= 0 && x < XRES && y >= 0 && y < YRES)
 	{
 		int r = sim->pmap[y][x];
+		if (TYP(r) == PT_CPPR)
+		{
+			// It be bouncin now
+			float rad = tmp * std::numbers::pi_v<float> / 180.0f;
+			int sx =(cosf(rad) >0.5f) ? 1 : (cosf(rad) <-0.5f ? -1:0);
+			int sy =(-sinf(rad)>0.5f) ? 1 : (-sinf(rad)<-0.5f ? -1:0);//ill be honest this took so damn long to figure out
+			int px = x-sx, py = y-sy; // origin
+			if (px>=0 && px<XRES && py>= 0&& py<YRES)
+			{
+				int pr = sim->pmap[py][px];
+				int bp = (TYP(pr) == PT_LIGH) ? ID(pr) : (!pr ? sim->create_part(-1, px, py, PT_LIGH) : -1);
+				if (bp>=0)
+				{
+					sim->parts[bp].tmp  = (tmp+180+sim->rng.between(-20,20)+360)%360;
+					sim->parts[bp].tmp2 = 0;
+					sim->parts[bp].life = std::max(2,int(life/1.5f));
+					sim->parts[bp].temp = restrict_flt(float(temp)*0.95f, MIN_TEMP, MAX_TEMP);
+					sim->parts[bp].dcolour = sim->parts[i].dcolour;
+				}
+			}
+			return true; // stop the ray
+		}
 		if (((TYP(r)==PT_VOID || (TYP(r)==PT_PVOD && sim->parts[ID(r)].life >= 10)) && (!sim->parts[ID(r)].ctype || (sim->parts[ID(r)].ctype==c)!=(sim->parts[ID(r)].tmp&1))) || TYP(r)==PT_BHOL || TYP(r)==PT_NBHL) // VOID, PVOD, VACU, and BHOL eat LIGH here
 			return true;
 	}
