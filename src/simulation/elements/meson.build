@@ -206,7 +206,10 @@ simulation_elem_names = [
 	'CPPR',
 	'ZINC',
 	'LCLR',
-	'TMMR'
+	'TMMR',
+	'BASIC',
+	'wavetest',
+	'HIFQ'
 ]
 
 simulation_elem_src = []

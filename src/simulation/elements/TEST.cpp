@@ -5,7 +5,7 @@ static int update(UPDATE_FUNC_ARGS);
 void Element::Element_TEST()
 {
 	Identifier = "DEFAULT_PT_TEST";
-	Name = "TEST";
+	Name = "test";
 	Colour = 0xA0F0A0_rgb;
 	MenuVisible = 1;
 	MenuSection = SC_POWDERS;

@@ -520,6 +520,30 @@ void Renderer::render_parts()
 						}
 					}
 				}
+				if(pixel_mode & PSPEC_WAVE)//holy crap this works
+				{
+					auto ang=parts[i].tmp;
+					auto freq = (parts[i].tmp3/20.0f);
+					auto state = parts[i].tmp4;
+					auto mag = parts[i].tmp2;
+
+					switch(t){
+					case(PT_HIFQ):
+						freq = 0.75f;
+						break;
+					}
+					float angle=((ang+90)/360.0f)*3.14159f*2.0f;
+					float boingboing=sinf(freq*state);
+					float dx;
+					float dy;
+
+					dx=cosf(angle)*mag*boingboing;
+					dy=sinf(angle)*mag*boingboing;
+
+					auto check = sim->pmap[int(nx+dx)][int(ny+dy)];
+
+					BlendPixel({int(nx+dx),int(ny+dy)},RGBA(colr,colg,colb,cola));
+				}
 				if(pixel_mode & PSPEC_STICKMAN)
 				{
 					int legr, legg, legb;

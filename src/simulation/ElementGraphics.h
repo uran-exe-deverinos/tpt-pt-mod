@@ -1,5 +1,7 @@
 #pragma once
 #include <cstdint>
+//this sucked to find
+//gsource <-keyword to find this again
 
 constexpr auto PMODE           = UINT32_C(0x00000FFF);
 constexpr auto PMODE_NONE      = UINT32_C(0x00000000);
@@ -13,6 +15,7 @@ constexpr auto PMODE_LFLARE    = UINT32_C(0x00000040);
 constexpr auto PMODE_ADD       = UINT32_C(0x00000080);
 constexpr auto PMODE_BLEND     = UINT32_C(0x00000100);
 constexpr auto PSPEC_STICKMAN  = UINT32_C(0x00000200);
+constexpr auto PSPEC_WAVE      = UINT32_C(0x00000201);
 
 constexpr auto OPTIONS         = UINT32_C(0x0000F000);
 constexpr auto NO_DECO         = UINT32_C(0x00001000);
