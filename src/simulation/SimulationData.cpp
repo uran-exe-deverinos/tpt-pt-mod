@@ -195,10 +195,10 @@ void SimulationData::init_can_move()
 
 		if (elements[destinationType].Weight<=85 || (destinationType != PT_METL && destinationType != PT_GOLD && destinationType != PT_TUNG && destinationType != PT_CPPR && destinationType != PT_RPEL && destinationType != PT_ACEL && destinationType != PT_DCEL && destinationType != PT_PRTI && destinationType != PT_PRTO && destinationType != PT_DMND)){
 			can_move[PT_HIFQ][destinationType] = 2;
-			can_move[PT_LOFQ][destinationType] = 2;
+			if (destinationType != PT_PTNM && destinationType != PT_SLTW && destinationType != PT_CBNW)
+				can_move[PT_LOFQ][destinationType] = 2;
 		}
-		if (destinationType != PT_PTNM && destinationType != PT_SLTW && destinationType != PT_CBNW)
-			can_move[PT_LOFQ][destinationType] = 2;
+		
 		
 		//Things PROT, GRVT and HIFQ cannot move through
 		if (destinationType != PT_DMND && destinationType != PT_INSL && destinationType != PT_VOID && destinationType != PT_PVOD && destinationType != PT_VIBR && destinationType != PT_BVBR && destinationType != PT_PRTI && destinationType != PT_PRTO)

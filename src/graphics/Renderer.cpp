@@ -545,7 +545,7 @@ void Renderer::render_parts()
 
 
 					if(sim->pmap[ny][nx]){
-						BlendFilledEllipse({nx,ny},{int(boingboing*mag),int(cosf(freq*state)*mag)},RGBA(colr,colg,colb,100));
+						BlendEllipse({nx,ny},{int(boingboing*mag),int(cosf(freq*state)*mag)},RGBA(colr,colg,colb,100));
 						BlendPixel({nx,ny},RGBA(colr,colg,colb,255));
 					}else
 						BlendPixel({int(nx+dx),int(ny+dy)},RGBA(colr,colg,colb,cola));

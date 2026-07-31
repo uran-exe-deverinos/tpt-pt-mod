@@ -56,7 +56,7 @@ void Element::Element_LOFQ()
 
 static int update(UPDATE_FUNC_ARGS){
 	parts[i].tmp4++;
-	parts[i].tmp2 = (float)(std::sqrt(std::pow(parts[i].vx,2)+std::pow(parts[i].vy,2)))*3;
+	parts[i].tmp2 = 7;
   parts[i].tmp = (atan2f(parts[i].vy,parts[i].vx)/(2*3.14159f))*360.0f;
 	for(auto nx= -1;nx<1;nx++){
 		for(auto ny= -1;ny<1;ny++){
@@ -72,7 +72,8 @@ static int graphics(GRAPHICS_FUNC_ARGS){
 }
 static void create(ELEMENT_CREATE_FUNC_ARGS)
 {
-	float a = sim->rng.between(0, 3) * 3.14159f / 2;
+	float a = sim->rng.between(0, 1) * 3.14159f;
+	a += sim->rng.between(-20,20)/30.0f;
 	sim->parts[i].life = 680;
 	sim->parts[i].vx = 1.5f * cosf(a);
 	sim->parts[i].vy = 1.5f * sinf(a);
