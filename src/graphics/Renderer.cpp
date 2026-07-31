@@ -531,8 +531,11 @@ void Renderer::render_parts()
 					case(PT_HIFQ):
 						freq = 0.75f;
 						break;
+					case(PT_LOFQ):
+						freq = 0.08f;
 					}
 					float angle=((ang+90)/360.0f)*3.14159f*2.0f;
+					angle = std::round(angle);
 					float boingboing=sinf(freq*state);
 					float dx;
 					float dy;
@@ -540,9 +543,12 @@ void Renderer::render_parts()
 					dx=cosf(angle)*mag*boingboing;
 					dy=sinf(angle)*mag*boingboing;
 
-					auto check = sim->pmap[int(nx+dx)][int(ny+dy)];
 
-					BlendPixel({int(nx+dx),int(ny+dy)},RGBA(colr,colg,colb,cola));
+					if(sim->pmap[ny][nx]){
+						BlendFilledEllipse({nx,ny},{int(boingboing*mag),int(cosf(freq*state)*mag)},RGBA(colr,colg,colb,100));
+						BlendPixel({nx,ny},RGBA(colr,colg,colb,255));
+					}else
+						BlendPixel({int(nx+dx),int(ny+dy)},RGBA(colr,colg,colb,cola));
 				}
 				if(pixel_mode & PSPEC_STICKMAN)
 				{

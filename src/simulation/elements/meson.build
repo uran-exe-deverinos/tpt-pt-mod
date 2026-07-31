@@ -209,7 +209,8 @@ simulation_elem_names = [
 	'TMMR',
 	'BASIC',
 	'wavetest',
-	'HIFQ'
+	'HIFQ',
+	'LOFQ'
 ]
 
 simulation_elem_src = []
