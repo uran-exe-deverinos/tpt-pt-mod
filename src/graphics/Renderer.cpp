@@ -255,6 +255,8 @@ void Renderer::render_parts()
 	int drawing_budget = 1000000; //Serves as an upper bound for costly effects such as SPARK, FLARE and LFLARE
 
 	auto &parts = sim->parts;
+	struct DeferredWave { Vec2<int> center; Vec2<int> radii; RGBA colour; bool ellipse; };//please work
+	std::vector<DeferredWave> deferredWaves;
 	if (gridSize)//draws the grid
 	{
 		for (ny=0; ny<YRES; ny++)
@@ -365,7 +367,9 @@ void Renderer::render_parts()
 				if (renderMode & PMODE_BLOB)
 					pixel_mode |= PMODE_BLOB;
 
+				bool waveWanted = pixel_mode & PSPEC_WAVE;
 				pixel_mode &= renderMode;
+				if (waveWanted) pixel_mode |= PSPEC_WAVE; // always let the wave through, even if saved renderMode lacks it
 
 				//Alter colour based on display mode
 				if(colorMode & COLOUR_HEAT)
@@ -526,29 +530,34 @@ void Renderer::render_parts()
 					auto freq = (parts[i].tmp3/20.0f);
 					auto state = parts[i].tmp4;
 					auto mag = parts[i].tmp2;
-
+					float angle=((ang+90)/360.0f)*3.14159f*2.0f;
 					switch(t){
 					case(PT_HIFQ):
 						freq = 0.75f;
+						angle=ang/100.0f;
+						angle+=3.1415f*0.5f;
 						break;
 					case(PT_LOFQ):
 						freq = 0.08f;
+						angle=ang/100.0f;
+						angle+=3.1415f*0.5f;
+						break;
 					}
-					float angle=((ang+90)/360.0f)*3.14159f*2.0f;
+					
 					angle = std::round(angle);
 					float boingboing=sinf(freq*state);
 					float dx;
 					float dy;
 
-					dx=cosf(angle)*mag*boingboing;
+					dx=cosf(angle)*mag*boingboing; 
 					dy=sinf(angle)*mag*boingboing;
 
 
-					if(sim->pmap[ny][nx]){
-						BlendEllipse({nx,ny},{int(boingboing*mag),int(cosf(freq*state)*mag)},RGBA(colr,colg,colb,100));
-						BlendPixel({nx,ny},RGBA(colr,colg,colb,255));
+					if(TYP(sim->pmap[ny][nx])!=PT_NONE){
+						deferredWaves.push_back({ Vec2<int>{nx,ny}, Vec2<int>{int(boingboing*mag),int(cosf(freq*state)*mag)}, RGBA(colr,colg,colb,100), true });
+						deferredWaves.push_back({ Vec2<int>{nx,ny}, Vec2<int>{0,0}, RGBA(colr,colg,colb,255), false });
 					}else
-						BlendPixel({int(nx+dx),int(ny+dy)},RGBA(colr,colg,colb,cola));
+						deferredWaves.push_back({ Vec2<int>{int(nx+dx),int(ny+dy)}, Vec2<int>{0,0}, RGBA(colr,colg,colb,cola), false });
 				}
 				if(pixel_mode & PSPEC_STICKMAN)
 				{
@@ -895,6 +904,14 @@ void Renderer::render_parts()
 				}
 			}
 		}
+	}
+	//draw deferred wave graphics on top of all already-drawn particles
+	for (auto &w : deferredWaves)
+	{
+		if (w.ellipse)
+			BlendEllipse(w.center, w.radii, w.colour);
+		else
+			BlendPixel(w.center, w.colour);
 	}
 }
 

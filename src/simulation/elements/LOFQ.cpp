@@ -57,10 +57,16 @@ void Element::Element_LOFQ()
 static int update(UPDATE_FUNC_ARGS){
 	parts[i].tmp4++;
 	parts[i].tmp2 = 7;
-  parts[i].tmp = (atan2f(parts[i].vy,parts[i].vx)/(2*3.14159f))*360.0f;
-	for(auto nx= -1;nx<1;nx++){
-		for(auto ny= -1;ny<1;ny++){
-			// slow down/scatter in some elements
+  parts[i].tmp = atan2f(parts[i].vy,parts[i].vx)*100.0f;
+	for(auto nx= -1;nx<=1;nx++){
+		for(auto ny= -1;ny<=1;ny++){
+			auto r = pmap[ny+y][nx+x];
+			auto rp= sim->photons[ny+y][nx+x];
+			if(TYP(rp)==PT_ELEC || TYP(rp)==PT_PROT){
+				parts[i].vx=((parts[i].vx*3)+parts[ID(rp)].vx)/4;
+				parts[i].vy=((parts[i].vy*3)+parts[ID(rp)].vy)/4;
+			}
+			
 		}
 	}
   return 0;

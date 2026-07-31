@@ -57,7 +57,7 @@ void Element::Element_HIFQ()
 static int update(UPDATE_FUNC_ARGS){
 	parts[i].tmp4++;
 	parts[i].tmp2 = 5;
-  parts[i].tmp = (atan2f(parts[i].vy,parts[i].vx)/(2*3.14159f))*360.0f;
+  parts[i].tmp = atan2f(parts[i].vy,parts[i].vx)*100.0f;
   return 0;
 }
 
