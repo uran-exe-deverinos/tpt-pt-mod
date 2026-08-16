@@ -4,12 +4,12 @@
 class Simulation;
 struct RenderableSimulation;
 
-class Magnetism{
+class Magnetism
+{
 public:
-  Simulation & sim;
+  explicit Magnetism(Simulation &sim);
+  Simulation &sim;
   constexpr static float MAX_MAGNETIC_VALUE = 255.0f;
   void Update(int xz, int yz);
   void UpdateAll();
-  size_t X;
-  size_t Y;
-}
+};

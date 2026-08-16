@@ -11,6 +11,7 @@ simulation_files = files(
 	'Simulation.cpp',
 	'StructProperty.cpp',
 	'FrameTime.cpp',
+	'magnetism/Magnetism.cpp',
 )
 
 subdir('elements')

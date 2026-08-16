@@ -3958,6 +3958,7 @@ Simulation::Simulation()
 
 	//Create and attach air simulation
 	air = std::make_unique<Air>(*this);
+	magnet = std::make_unique<Magnetism>(*this);
 
 	player.comm = 0;
 	player2.comm = 0;
