@@ -10,6 +10,7 @@
 #include "CoordStack.h"
 #include "common/tpt-rand.h"
 #include "gravity/Gravity.h"
+#include "magnetism/Magnetism.h"
 #include "graphics/RendererFrame.h"
 #include "Element.h"
 #include "SimulationConfig.h"
@@ -97,6 +98,9 @@ struct RenderableSimulation
 	playerst player2;
 	playerst fighters[MAX_FIGHTERS]; //Defined in Stickman.h
 
+	float mgx[YCELLS][XCELLS];
+	float mgy[YCELLS][XCELLS];
+	float charge[YCELLS][XCELLS];//-1.0 to 1.0
 	float vx[YCELLS][XCELLS];
 	float vy[YCELLS][XCELLS];
 	float pv[YCELLS][XCELLS];
@@ -119,6 +123,7 @@ class Simulation : public RenderableSimulation
 public:
 	GravityPtr grav;
 	std::unique_ptr<Air> air;
+	std::unique_ptr<Magnetism> magnet;
 
 	RNG rng;
 

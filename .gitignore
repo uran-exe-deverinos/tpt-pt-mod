@@ -9,6 +9,7 @@
 *.ppm
 *.swp
 *~
+*.cmd
 .DS_Store
 
 # Build files

@@ -103,6 +103,7 @@ public:
 	bool waterEEnabled = false;
 	bool legacyEnable = false;
 	bool gravityEnable = false;
+	bool magnetismEnable = true;
 	bool aheatEnable = false;
 	bool paused = false;
 	int gravityMode = 0;

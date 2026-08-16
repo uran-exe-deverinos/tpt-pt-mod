@@ -640,6 +640,7 @@ void GameSave::readOPS(const std::vector<char> &data)
 	getAddressIfUser(b, "soapLinks", soapLinkData);
 	copyIfBool(b, "legacyEnable", legacyEnable);
 	copyIfBool(b, "gravityEnable", gravityEnable);
+
 	copyIfBool(b, "aheat_enable", aheatEnable);
 	copyIfBool(b, "waterEEnabled", waterEEnabled);
 	copyIfBool(b, "paused", paused);

@@ -1,5 +1,6 @@
 #include "Simulation.h"
 #include "Air.h"
+#include "magnetism/Magnetism.h"
 #include "ElementClasses.h"
 #include "TransitionConstants.h"
 #include "gravity/Gravity.h"
@@ -3750,6 +3751,8 @@ void Simulation::BeforeSim(bool willUpdate)
 		
 		if(aheat_enable)
 			air->update_airh();
+
+		magnet->UpdateAll();
 
 		DispatchNewtonianGravity();
 		// gravIn::mass is now potentially garbage, which is ok, we were going to clear it for the frame anyway

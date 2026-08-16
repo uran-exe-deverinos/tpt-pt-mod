@@ -9,6 +9,7 @@
 #include "simulation/ElementGraphics.h"
 #include "simulation/ElementClasses.h"
 #include "simulation/Air.h"
+#include "simulation/magnetism/Magnetism.h"
 #include "simulation/gravity/Gravity.h"
 #include "simulation/orbitalparts.h"
 #include "simulation/elements/SOAP.h"
@@ -992,6 +993,24 @@ RGB PressureToColour(float pres)
 	else
 		c = RGB(0, 0, clamp_flt(-pres, 0.0f, 8.0f));//negative pressure is blue!
 	return c;
+}
+
+void Renderer::draw_magnetic()
+{
+	// if(!(displayMode & DISPLAY_MAGNETIC))
+	// 	return;
+	int r,g,b;
+	for (int y=0; y<YCELLS; y++)
+		for (int x=0; x<XCELLS; x++)
+		{
+			r = clamp_flt(sim->charge[y][x], -8.0f, 8.0f);
+			g = clamp_flt(fabsf(sim->mgx[y][x]), 0.0f, 8.0f);
+			b = clamp_flt(fabsf(sim->mgy[y][x]), 0.0f, 8.0f);
+			c = RGB(r,g,b);
+			for (int j=0; j<CELL; j++)//draws the colors
+				for (int i=0; i<CELL; i++)
+					video[{x*CELL+i,y*CELL+j}] = c.Pack();
+		}
 }
 
 void Renderer::draw_air()

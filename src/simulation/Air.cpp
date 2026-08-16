@@ -269,7 +269,7 @@ void Air::update_air(void)
 	{
 		for (auto i=0; i<YCELLS; i++) //reduces pressure/velocity on the edges every frame
 		{
-			pv[i][       0] = Mix(edgePressure , pv[i][       0], 0.8f);
+			pv[i][       0] = Mix(edgePressure , pv[i][       0], 0.8f);//vro what am I looking at
 			pv[i][       1] = Mix(edgePressure , pv[i][       1], 0.8f);
 			pv[i][XCELLS-2] = Mix(edgePressure , pv[i][XCELLS-2], 0.8f);
 			pv[i][XCELLS-1] = Mix(edgePressure , pv[i][XCELLS-1], 0.8f);
@@ -504,7 +504,7 @@ void Air::Invert()
 	for (auto nx = 0; nx<XCELLS; nx++)
 	{
 		for (auto ny = 0; ny<YCELLS; ny++)
-		{
+		{//what is this for
 			pv[ny][nx] = -pv[ny][nx];
 			vx[ny][nx] = -vx[ny][nx];
 			vy[ny][nx] = -vy[ny][nx];
