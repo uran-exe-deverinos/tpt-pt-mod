@@ -11,6 +11,8 @@ simulation_tool_names = [
 	'AMBP',
 	'WIND',
 	'NOPE',
+	'MAGP',
+	'MAGN'
 ]
 
 simulation_tool_src = []

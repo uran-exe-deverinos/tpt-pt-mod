@@ -1073,6 +1073,7 @@ void Simulation::clear_sim(void)
 		air->ClearAirH();
 	}
 	SetEdgeMode(edgeMode);
+	magnet->Clear();
 }
 
 bool Simulation::IsWallBlocking(int x, int y, int type) const

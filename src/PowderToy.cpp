@@ -93,6 +93,8 @@ void LargeScreenDialog()
 		GlobalPrefs::Ref().Set("Scale", 1);
 		ui::Engine::Ref().windowFrameOps.scale = 1;
 	} });
+	new ConfirmPrompt("nice :D", message.Build(), { nullptr, []() {
+	} });
 }
 
 void TickClient()
@@ -110,6 +112,7 @@ static void BlueScreen(String detailMessage, std::optional<std::vector<String>> 
 	Platform::RenameFile(crashLogPath, crashPrevLogPath, true);
 
 	StringBuilder crashInfo;
+	crashInfo << "Dude, you ruined it\n";
 	crashInfo << "ERROR - Details: " << detailMessage << "\n";
 	crashInfo << "An unrecoverable fault has occurred, please report it by visiting the website below\n\n  " << SERVER << "\n\n";
 	crashInfo << "An attempt will be made to save all of this information to " << crashLogPath.FromUtf8() << " in your data folder.\n";

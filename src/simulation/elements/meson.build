@@ -210,7 +210,8 @@ simulation_elem_names = [
 	'BASIC',
 	'wavetest',
 	'HIFQ',
-	'LOFQ'
+	'LOFQ',
+	'MPMP'
 ]
 
 simulation_elem_src = []
