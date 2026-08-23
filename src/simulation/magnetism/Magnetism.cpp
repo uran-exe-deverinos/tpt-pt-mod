@@ -1,91 +1,76 @@
 #include "Magnetism.h"
 #include "../Simulation.h"
+#include "../Air.h"
 #include "../ElementClasses.h"
 #include <cmath>
 #include <algorithm>
 
 Magnetism::Magnetism(Simulation &sim) : sim(sim)
 {
+  std::fill(&bmap_blockmag[0][0], &bmap_blockmag[0][0] + YCELLS * XCELLS, false);
 }
 
-std::array<float, 3> Magnetism::Update(int xz, int yz)
+std::array<float, 4> Magnetism::Update(int xz, int yz)
 {
-  const float chg = sim.charge[yz][xz];
-
-  std::array<float, 3> returns;
-
-  float strongx = 0.0f;
-  float strongy = 0.0f;
-  float weakx = 0.0f;
-  float weaky = 0.0f;
-
-  float chgtot = chg * 0.85f;
-  const float decay = 0.08f;
-  chgtot -= std::copysign(decay, chgtot) * (std::abs(chgtot) > 0.01f ? 1.0f : 0.0f);
-  if (std::abs(chgtot) < 0.02f)
-    chgtot = 0.0f;
-
-  for (int x1 = -3; x1 <= 3; x1++)
+  std::array<float, 4> returns;
+  if (xz == 0 || xz == XCELLS - 1 || yz == 0 || yz == YCELLS - 1)
   {
-    for (int y1 = -3; y1 <= 3; y1++)
-    {
-      if (x1 == 0 && y1 == 0)
-        continue;
-
-      const int nx = xz + x1;
-      const int ny = yz + y1;
-      if (nx < 0 || nx >= XCELLS || ny < 0 || ny >= YCELLS)
-        continue;
-
-      const int manhattan = std::abs(x1) + std::abs(y1);
-      const int radius = std::max(std::abs(x1), std::abs(y1));
-
-      float influence = 0.0f;
-      // mmmmm pressure wave
-      if (manhattan == 1)
-        influence = 0.08f;
-      else if (manhattan == 2)
-        influence = 0.05f;
-      else if (manhattan == 3)
-        influence = 0.03f;
-      else if (manhattan == 4)
-        influence = 0.015f;
-      else if (manhattan == 5)
-        influence = 0.008f;
-      else if (manhattan == 6)
-        influence = 0.004f;
-
-      if (influence <= 0.0f)
-        continue;
-
-      const float nchg = sim.charge[ny][nx];
-      const float nmgx = sim.mgx[ny][nx];
-      const float nmgy = sim.mgy[ny][nx];
-
-      const float interaction = chg * nchg;
-      const float polarityFactor = (interaction < 0.0f) ? 1.0f : -1.0f;
-
-      strongx += nmgx * std::abs(interaction) * influence * 0.5f * polarityFactor + interaction * x1 * 0.01f; // christ thats a tonna math
-      strongy += nmgy * std::abs(interaction) * influence * 0.5f * polarityFactor + interaction * y1 * 0.01f;
-      weakx += nmgx * std::abs(interaction) * influence * 0.2f * polarityFactor + interaction * x1 * 0.005f;
-      weaky += nmgy * std::abs(interaction) * influence * 0.2f * polarityFactor + interaction * y1 * 0.005f;
-    }
+    returns[0] = 0.0f;
+    returns[1] = 0.0f;
+    returns[2] = 0.0f;
+    returns[3] = 0.0f;
+    return returns;
   }
 
-  strongx *= 0.90f;
-  strongy *= 0.90f;
-  weakx *= 0.88f;
-  weaky *= 0.88f;
+  if (bmap_blockmag[yz][xz]){
+    returns[0] = 0.0f;
+    returns[1] = 0.0f;
+    returns[2] = 0.0f;
+    returns[3] = 0.0f;
+    return returns;
+  }
 
-  returns[0] = std::clamp(chgtot, -5.0f, 5.0f);
-  returns[1] = std::clamp(strongx + weakx, -MAX_MAGNETIC_VALUE, MAX_MAGNETIC_VALUE) * 0.15f;
-  returns[2] = std::clamp(strongy + weaky, -MAX_MAGNETIC_VALUE, MAX_MAGNETIC_VALUE) * 0.15f;
+  float charge = sim.charge[yz][xz];
+  float vel = sim.vvelmg[yz][xz];
+  float mgx = 0.0f;
+  float mgy = 0.0f;
+  float density = sim.mediumd[yz][xz] + 1;
+  constexpr float springStrength = 0.02f;
+  constexpr float damping = 0.99f;
+  constexpr float maxCharge = 400.0f;
+  constexpr float maxVelocity = 1.0f;
+
+  for (int y = -1; y <= 1; y++)
+  {
+    for (int x = -1; x <= 1; x++)
+    {
+      if (x == 0 && y == 0)
+        continue;
+      int nx = xz + x;
+      int ny = yz + y;
+      if (nx < 0 || nx >= XCELLS || ny < 0 || ny >= YCELLS)
+        continue;
+      float dist = std::sqrtf(float(x * x + y * y));
+      float ncharge = sim.charge[ny][nx];
+      float displacement = ncharge - charge;
+
+      vel += displacement * springStrength / density / dist;
+      mgx += displacement * (-x) / dist;
+      mgy += displacement * (-y) / dist;
+    }
+  }
+  vel = std::clamp(vel * damping, -maxVelocity, maxVelocity);
+  charge = std::clamp(charge + vel, -maxCharge, maxCharge);
+  returns[0] = charge;
+  returns[1] = vel;
+  returns[2] = mgx;
+  returns[3] = mgy;
   return returns;
 }
 
 void Magnetism::UpdateAll()
 {
-  std::array<float, 3> tempall[YCELLS][XCELLS];
+  std::array<float, 4> tempall[YCELLS][XCELLS];
   for (int y = 0; y < YCELLS; y++)
   {
     for (int x = 0; x < XCELLS; x++)
@@ -98,8 +83,9 @@ void Magnetism::UpdateAll()
     for (int x = 0; x < XCELLS; x++)
     {
       sim.charge[y][x] = tempall[y][x][0];
-      sim.mgx[y][x] = tempall[y][x][1];
-      sim.mgy[y][x] = tempall[y][x][2];
+      sim.mgx[y][x] = tempall[y][x][2];
+      sim.mgy[y][x] = tempall[y][x][3];
+      sim.vvelmg[y][x] = tempall[y][x][1];
     }
   }
 }
@@ -113,6 +99,7 @@ void Magnetism::Clear()
       sim.charge[y][x] = 0.0f;
       sim.mgx[y][x] = 0.0f;
       sim.mgy[y][x] = 0.0f;
+      sim.vvelmg[y][x] = 0.0f;
     }
   }
 }

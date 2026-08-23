@@ -98,6 +98,10 @@ public:
 	PlaneAdapter<std::vector<uint32_t>> gravMask;
 	PlaneAdapter<std::vector<float>> gravForceX;
 	PlaneAdapter<std::vector<float>> gravForceY;
+	PlaneAdapter<std::vector<float>> mCharge;
+	PlaneAdapter<std::vector<float>> mVelocity;
+	PlaneAdapter<std::vector<float>> mVelocityX;
+	PlaneAdapter<std::vector<float>> mVelocityY;
 
 	//Simulation Options
 	bool waterEEnabled = false;

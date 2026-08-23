@@ -100,7 +100,9 @@ struct RenderableSimulation
 
 	float mgx[YCELLS][XCELLS];
 	float mgy[YCELLS][XCELLS];
-	float charge[YCELLS][XCELLS];//-5.0 to 5.0
+	float mediumd[YCELLS][XCELLS];
+	float vvelmg[YCELLS][XCELLS];
+	float charge[YCELLS][XCELLS];
 	float vx[YCELLS][XCELLS];
 	float vy[YCELLS][XCELLS];
 	float pv[YCELLS][XCELLS];

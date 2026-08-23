@@ -11,6 +11,10 @@ struct SimulationSample
 	float AirTemperature = 0;
 	float AirVelocityX = 0;
 	float AirVelocityY = 0;
+	float MagneticCharge = 0;
+	float MagneticVelocity = 0;
+	float MagneticFieldX = 0;
+	float MagneticFieldY = 0;
 
 	int WallType = 0;
 	float GravityVelocityX = 0;

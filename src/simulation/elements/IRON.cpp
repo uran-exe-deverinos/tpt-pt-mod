@@ -47,6 +47,7 @@ void Element::Element_IRON()
 
 static int update(UPDATE_FUNC_ARGS)
 {
+	sim->mediumd[y/4][x/4] += 2.0f/16.0f;
 	if (parts[i].life)
 		return 0;
 	auto tryBreak = [&]() {

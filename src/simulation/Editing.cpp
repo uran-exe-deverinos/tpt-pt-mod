@@ -14,26 +14,30 @@
 std::unique_ptr<Snapshot> Simulation::CreateSnapshot() const
 {
 	auto snap = std::make_unique<Snapshot>();
-	snap->AirPressure    .insert   (snap->AirPressure    .begin(), &pv  [0][0]      , &pv  [0][0] + NCELL);
-	snap->AirVelocityX   .insert   (snap->AirVelocityX   .begin(), &vx  [0][0]      , &vx  [0][0] + NCELL);
-	snap->AirVelocityY   .insert   (snap->AirVelocityY   .begin(), &vy  [0][0]      , &vy  [0][0] + NCELL);
-	snap->AmbientHeat    .insert   (snap->AmbientHeat    .begin(), &hv  [0][0]      , &hv  [0][0] + NCELL);
-	snap->BlockMap       .insert   (snap->BlockMap       .begin(), &bmap[0][0]      , &bmap[0][0] + NCELL);
-	snap->ElecMap        .insert   (snap->ElecMap        .begin(), &emap[0][0]      , &emap[0][0] + NCELL);
-	snap->BlockAir       .insert   (snap->BlockAir       .begin(), &air->bmap_blockair[0][0] , &air->bmap_blockair[0][0]  + NCELL);
-	snap->BlockAirH      .insert   (snap->BlockAirH      .begin(), &air->bmap_blockairh[0][0], &air->bmap_blockairh[0][0] + NCELL);
-	snap->FanVelocityX   .insert   (snap->FanVelocityX   .begin(), &fvx [0][0]      , &fvx [0][0] + NCELL);
-	snap->FanVelocityY   .insert   (snap->FanVelocityY   .begin(), &fvy [0][0]      , &fvy [0][0] + NCELL);
-	snap->Particles      .insert   (snap->Particles      .begin(), &parts  [0]      , &parts  [0] + parts.active);
-	snap->PortalParticles.insert   (snap->PortalParticles.begin(), &portalp[0][0][0], &portalp[0][0][0] + CHANNELS * 8 * 80);
-	snap->WirelessData   .insert   (snap->WirelessData   .begin(), &wireless[0][0]  , &wireless[0][0] + CHANNELS * 2);
-	snap->stickmen       .insert   (snap->stickmen       .begin(), &fighters[0]     , &fighters[0] + MAX_FIGHTERS);
-	snap->stickmen       .push_back(player2);
-	snap->stickmen       .push_back(player);
-	snap->GravMass  .insert(snap->GravMass  .begin(), &gravIn.mass[{ 0, 0 }]   , &gravIn.mass[{ 0, 0 }]    + NCELL);
-	snap->GravMask  .insert(snap->GravMask  .begin(), &gravIn.mask[{ 0, 0 }]   , &gravIn.mask[{ 0, 0 }]    + NCELL);
-	snap->GravForceX.insert(snap->GravForceX.begin(), &gravOut.forceX[{ 0, 0 }], &gravOut.forceX[{ 0, 0 }] + NCELL);
-	snap->GravForceY.insert(snap->GravForceY.begin(), &gravOut.forceY[{ 0, 0 }], &gravOut.forceY[{ 0, 0 }] + NCELL);
+	snap->AirPressure.insert(snap->AirPressure.begin(), &pv[0][0], &pv[0][0] + NCELL);
+	snap->AirVelocityX.insert(snap->AirVelocityX.begin(), &vx[0][0], &vx[0][0] + NCELL);
+	snap->AirVelocityY.insert(snap->AirVelocityY.begin(), &vy[0][0], &vy[0][0] + NCELL);
+	snap->AmbientHeat.insert(snap->AmbientHeat.begin(), &hv[0][0], &hv[0][0] + NCELL);
+	snap->BlockMap.insert(snap->BlockMap.begin(), &bmap[0][0], &bmap[0][0] + NCELL);
+	snap->ElecMap.insert(snap->ElecMap.begin(), &emap[0][0], &emap[0][0] + NCELL);
+	snap->BlockAir.insert(snap->BlockAir.begin(), &air->bmap_blockair[0][0], &air->bmap_blockair[0][0] + NCELL);
+	snap->BlockAirH.insert(snap->BlockAirH.begin(), &air->bmap_blockairh[0][0], &air->bmap_blockairh[0][0] + NCELL);
+	snap->MCharge.insert(snap->MCharge.begin(), &charge[0][0], &charge[0][0] + NCELL);
+	snap->MVelocity.insert(snap->MVelocity.begin(), &vvelmg[0][0], &vvelmg[0][0] + NCELL);
+	snap->MVelocityX.insert(snap->MVelocityX.begin(), &mgx[0][0], &mgx[0][0] + NCELL);
+	snap->MVelocityY.insert(snap->MVelocityY.begin(), &mgy[0][0], &mgy[0][0] + NCELL);
+	snap->FanVelocityX.insert(snap->FanVelocityX.begin(), &fvx[0][0], &fvx[0][0] + NCELL);
+	snap->FanVelocityY.insert(snap->FanVelocityY.begin(), &fvy[0][0], &fvy[0][0] + NCELL);
+	snap->Particles.insert(snap->Particles.begin(), &parts[0], &parts[0] + parts.active);
+	snap->PortalParticles.insert(snap->PortalParticles.begin(), &portalp[0][0][0], &portalp[0][0][0] + CHANNELS * 8 * 80);
+	snap->WirelessData.insert(snap->WirelessData.begin(), &wireless[0][0], &wireless[0][0] + CHANNELS * 2);
+	snap->stickmen.insert(snap->stickmen.begin(), &fighters[0], &fighters[0] + MAX_FIGHTERS);
+	snap->stickmen.push_back(player2);
+	snap->stickmen.push_back(player);
+	snap->GravMass.insert(snap->GravMass.begin(), &gravIn.mass[{0, 0}], &gravIn.mass[{0, 0}] + NCELL);
+	snap->GravMask.insert(snap->GravMask.begin(), &gravIn.mask[{0, 0}], &gravIn.mask[{0, 0}] + NCELL);
+	snap->GravForceX.insert(snap->GravForceX.begin(), &gravOut.forceX[{0, 0}], &gravOut.forceX[{0, 0}] + NCELL);
+	snap->GravForceY.insert(snap->GravForceY.begin(), &gravOut.forceY[{0, 0}], &gravOut.forceY[{0, 0}] + NCELL);
 	snap->signs = signs;
 	snap->FrameCount = frameCount;
 	snap->RngState = rng.state();
@@ -49,29 +53,33 @@ void Simulation::Restore(const Snapshot &snap)
 	{
 		part.type = 0;
 	}
-	std::copy(snap.AirPressure    .begin(), snap.AirPressure    .end(), &pv[0][0]        );
-	std::copy(snap.AirVelocityX   .begin(), snap.AirVelocityX   .end(), &vx[0][0]        );
-	std::copy(snap.AirVelocityY   .begin(), snap.AirVelocityY   .end(), &vy[0][0]        );
-	std::copy(snap.AmbientHeat    .begin(), snap.AmbientHeat    .end(), &hv[0][0]        );
-	std::copy(snap.BlockMap       .begin(), snap.BlockMap       .end(), &bmap[0][0]      );
-	std::copy(snap.ElecMap        .begin(), snap.ElecMap        .end(), &emap[0][0]      );
-	std::copy(snap.BlockAir       .begin(), snap.BlockAir       .end(), &air->bmap_blockair[0][0] );
-	std::copy(snap.BlockAirH      .begin(), snap.BlockAirH      .end(), &air->bmap_blockairh[0][0]);
-	std::copy(snap.FanVelocityX   .begin(), snap.FanVelocityX   .end(), &fvx[0][0]       );
-	std::copy(snap.FanVelocityY   .begin(), snap.FanVelocityY   .end(), &fvy[0][0]       );
-	std::copy(snap.Particles      .begin(), snap.Particles      .end(), &parts[0]        );
+	std::copy(snap.AirPressure.begin(), snap.AirPressure.end(), &pv[0][0]);
+	std::copy(snap.AirVelocityX.begin(), snap.AirVelocityX.end(), &vx[0][0]);
+	std::copy(snap.AirVelocityY.begin(), snap.AirVelocityY.end(), &vy[0][0]);
+	std::copy(snap.AmbientHeat.begin(), snap.AmbientHeat.end(), &hv[0][0]);
+	std::copy(snap.BlockMap.begin(), snap.BlockMap.end(), &bmap[0][0]);
+	std::copy(snap.ElecMap.begin(), snap.ElecMap.end(), &emap[0][0]);
+	std::copy(snap.BlockAir.begin(), snap.BlockAir.end(), &air->bmap_blockair[0][0]);
+	std::copy(snap.BlockAirH.begin(), snap.BlockAirH.end(), &air->bmap_blockairh[0][0]);
+	std::copy(snap.FanVelocityX.begin(), snap.FanVelocityX.end(), &fvx[0][0]);
+	std::copy(snap.FanVelocityY.begin(), snap.FanVelocityY.end(), &fvy[0][0]);
+	std::copy(snap.Particles.begin(), snap.Particles.end(), &parts[0]);
 	std::copy(snap.PortalParticles.begin(), snap.PortalParticles.end(), &portalp[0][0][0]);
-	std::copy(snap.WirelessData   .begin(), snap.WirelessData   .end(), &wireless[0][0]  );
-	std::copy(snap.stickmen       .begin(), snap.stickmen.end() - 2   , &fighters[0]     );
-	player  = snap.stickmen[snap.stickmen.size() - 1];
+	std::copy(snap.WirelessData.begin(), snap.WirelessData.end(), &wireless[0][0]);
+	std::copy(snap.stickmen.begin(), snap.stickmen.end() - 2, &fighters[0]);
+	std::copy(snap.MCharge.begin(), snap.MCharge.end(), &charge[0][0]);
+	std::copy(snap.MVelocity.begin(), snap.MVelocity.end(), &vvelmg[0][0]);
+	std::copy(snap.MVelocityX.begin(), snap.MVelocityX.end(), &mgx[0][0]);
+	std::copy(snap.MVelocityY.begin(), snap.MVelocityY.end(), &mgy[0][0]);
+	player = snap.stickmen[snap.stickmen.size() - 1];
 	player2 = snap.stickmen[snap.stickmen.size() - 2];
 	{
 		GravityInput newGravIn;
 		GravityOutput newGravOut;
-		std::copy(snap.GravMass  .begin(), snap.GravMass  .end(), &newGravIn.mass[{ 0, 0 }]   );
-		std::copy(snap.GravMask  .begin(), snap.GravMask  .end(), &newGravIn.mask[{ 0, 0 }]   );
-		std::copy(snap.GravForceX.begin(), snap.GravForceX.end(), &newGravOut.forceX[{ 0, 0 }]);
-		std::copy(snap.GravForceY.begin(), snap.GravForceY.end(), &newGravOut.forceY[{ 0, 0 }]);
+		std::copy(snap.GravMass.begin(), snap.GravMass.end(), &newGravIn.mass[{0, 0}]);
+		std::copy(snap.GravMask.begin(), snap.GravMask.end(), &newGravIn.mask[{0, 0}]);
+		std::copy(snap.GravForceX.begin(), snap.GravForceX.end(), &newGravOut.forceX[{0, 0}]);
+		std::copy(snap.GravForceY.begin(), snap.GravForceY.end(), &newGravOut.forceY[{0, 0}]);
 		// we apply the old grav values but Newtonian gravity enable state is not part of the snapshot so this may be pointless
 		// TODO: maybe track settings like Newtonian gravity enable state in the history
 		ResetNewtonianGravity(newGravIn, newGravOut);
@@ -85,19 +93,19 @@ void Simulation::Restore(const Snapshot &snap)
 
 void Simulation::clear_area(int area_x, int area_y, int area_w, int area_h)
 {
-	auto intersection = RES.OriginRect() & RectSized(Vec2{ area_x, area_y }, Vec2{ area_w, area_h });
+	auto intersection = RES.OriginRect() & RectSized(Vec2{area_x, area_y}, Vec2{area_w, area_h});
 	area_x = intersection.pos.X;
 	area_y = intersection.pos.Y;
 	area_w = intersection.size.X;
 	area_h = intersection.size.Y;
-	float fx = area_x-.5f, fy = area_y-.5f;
+	float fx = area_x - .5f, fy = area_y - .5f;
 	for (int i = 0; i < parts.active; i++)
 	{
 		if (parts[i].type)
-			if (parts[i].x >= fx && parts[i].x <= fx+area_w+1 && parts[i].y >= fy && parts[i].y <= fy+area_h+1)
+			if (parts[i].x >= fx && parts[i].x <= fx + area_w + 1 && parts[i].y >= fy && parts[i].y <= fy + area_h + 1)
 				kill_part(i);
 	}
-	int cx1 = area_x/CELL, cy1 = area_y/CELL, cx2 = (area_x+area_w)/CELL, cy2 = (area_y+area_h)/CELL;
+	int cx1 = area_x / CELL, cy1 = area_y / CELL, cx2 = (area_x + area_w) / CELL, cy2 = (area_y + area_h) / CELL;
 	for (int y = cy1; y <= cy2; y++)
 	{
 		for (int x = cx1; x <= cx2; x++)
@@ -108,11 +116,11 @@ void Simulation::clear_area(int area_x, int area_y, int area_w, int area_h)
 			emap[y][x] = 0;
 		}
 	}
-	for( int i = signs.size()-1; i >= 0; i--)
+	for (int i = signs.size() - 1; i >= 0; i--)
 	{
-		if (signs[i].text.length() && signs[i].x >= area_x && signs[i].y >= area_y && signs[i].x <= area_x+area_w && signs[i].y <= area_y+area_h)
+		if (signs[i].text.length() && signs[i].x >= area_x && signs[i].y >= area_y && signs[i].x <= area_x + area_w && signs[i].y <= area_y + area_h)
 		{
-			signs.erase(signs.begin()+i);
+			signs.erase(signs.begin() + i);
 		}
 	}
 }
@@ -135,19 +143,23 @@ SimulationSample Simulation::GetSample(int x, int y)
 			sample.particle = parts[ID(pmap[y][x])];
 			sample.ParticleID = ID(pmap[y][x]);
 		}
-		if (bmap[y/CELL][x/CELL])
+		if (bmap[y / CELL][x / CELL])
 		{
-			sample.WallType = bmap[y/CELL][x/CELL];
+			sample.WallType = bmap[y / CELL][x / CELL];
 		}
-		sample.AirPressure = pv[y/CELL][x/CELL];
-		sample.AirTemperature = hv[y/CELL][x/CELL];
-		sample.AirVelocityX = vx[y/CELL][x/CELL];
-		sample.AirVelocityY = vy[y/CELL][x/CELL];
+		sample.AirPressure = pv[y / CELL][x / CELL];
+		sample.AirTemperature = hv[y / CELL][x / CELL];
+		sample.AirVelocityX = vx[y / CELL][x / CELL];
+		sample.AirVelocityY = vy[y / CELL][x / CELL];
+		sample.MagneticCharge = charge[y / CELL][x / CELL];
+		sample.MagneticVelocity = vvelmg[y / CELL][x / CELL];
+		sample.MagneticFieldX = mgx[y / CELL][x / CELL];
+		sample.MagneticFieldY = mgy[y / CELL][x / CELL];
 
 		if (grav)
 		{
-			sample.GravityVelocityX = gravOut.forceX[Vec2{ x, y } / CELL];
-			sample.GravityVelocityY = gravOut.forceY[Vec2{ x, y } / CELL];
+			sample.GravityVelocityX = gravOut.forceX[Vec2{x, y} / CELL];
+			sample.GravityVelocityY = gravOut.forceY[Vec2{x, y} / CELL];
 		}
 	}
 	else
@@ -168,21 +180,21 @@ void Simulation::SetDecoSpace(int newDecoSpace)
 
 int Simulation::CreateWalls(int x, int y, int rx, int ry, int wall, Brush const *cBrush)
 {
-	if(cBrush)
+	if (cBrush)
 	{
 		rx = cBrush->GetRadius().X;
 		ry = cBrush->GetRadius().Y;
 	}
 
-	ry = ry/CELL;
-	rx = rx/CELL;
-	x = x/CELL;
-	y = y/CELL;
+	ry = ry / CELL;
+	rx = rx / CELL;
+	x = x / CELL;
+	y = y / CELL;
 	x -= rx;
 	y -= ry;
-	for (int wallX = x; wallX <= x+rx+rx; wallX++)
+	for (int wallX = x; wallX <= x + rx + rx; wallX++)
 	{
-		for (int wallY = y; wallY <= y+ry+ry; wallY++)
+		for (int wallY = y; wallY <= y + ry + ry; wallY++)
 		{
 			if (wallX >= 0 && wallX < XCELLS && wallY >= 0 && wallY < YCELLS)
 			{
@@ -195,9 +207,9 @@ int Simulation::CreateWalls(int x, int y, int rx, int ry, int wall, Brush const 
 				{
 					wallX = x + rx;
 					wallY = y + ry;
-					//streamlines can't be drawn next to each other
-					for (int tempY = wallY-1; tempY < wallY+2; tempY++)
-						for (int tempX = wallX-1; tempX < wallX+2; tempX++)
+					// streamlines can't be drawn next to each other
+					for (int tempY = wallY - 1; tempY < wallY + 2; tempY++)
+						for (int tempX = wallX - 1; tempX < wallX + 2; tempX++)
 						{
 							if (tempX >= 0 && tempX < XCELLS && tempY >= 0 && tempY < YCELLS && bmap[tempY][tempX] == WL_STREAM)
 								return 1;
@@ -211,11 +223,11 @@ int Simulation::CreateWalls(int x, int y, int rx, int ry, int wall, Brush const 
 					for (int i = 0; i < CELL; i++)
 						for (int j = 0; j < CELL; j++)
 						{
-							delete_part(wallX*CELL+i, wallY*CELL+j);
+							delete_part(wallX * CELL + i, wallY * CELL + j);
 						}
-					for (int i = signs.size()-1; i >= 0; i--)
-						if (signs[i].x >= wallX*CELL && signs[i].y >= wallY*CELL && signs[i].x <= (wallX+1)*CELL && signs[i].y <= (wallY+1)*CELL)
-							signs.erase(signs.begin()+i);
+					for (int i = signs.size() - 1; i >= 0; i--)
+						if (signs[i].x >= wallX * CELL && signs[i].y >= wallY * CELL && signs[i].x <= (wallX + 1) * CELL && signs[i].y <= (wallY + 1) * CELL)
+							signs.erase(signs.begin() + i);
 					bmap[wallY][wallX] = 0;
 				}
 				else
@@ -229,7 +241,7 @@ int Simulation::CreateWalls(int x, int y, int rx, int ry, int wall, Brush const 
 void Simulation::CreateWallLine(int x1, int y1, int x2, int y2, int rx, int ry, int wall, Brush const *cBrush)
 {
 	int x, y, dx, dy, sy;
-	bool reverseXY = abs(y2-y1) > abs(x2-x1);
+	bool reverseXY = abs(y2 - y1) > abs(x2 - x1);
 	float e = 0.0f, de;
 	if (reverseXY)
 	{
@@ -251,10 +263,10 @@ void Simulation::CreateWallLine(int x1, int y1, int x2, int y2, int rx, int ry, 
 	}
 	dx = x2 - x1;
 	dy = abs(y2 - y1);
-	de = dx ? dy/(float)dx : 0.0f;
+	de = dx ? dy / (float)dx : 0.0f;
 	y = y1;
-	sy = (y1<y2) ? 1 : -1;
-	for (x=x1; x<=x2; x++)
+	sy = (y1 < y2) ? 1 : -1;
+	for (x = x1; x <= x2; x++)
 	{
 		if (reverseXY)
 			CreateWalls(y, x, rx, ry, wall, cBrush);
@@ -264,7 +276,7 @@ void Simulation::CreateWallLine(int x1, int y1, int x2, int y2, int rx, int ry, 
 		if (e >= 0.5f)
 		{
 			y += sy;
-			if ((y1<y2) ? (y<=y2) : (y>=y2))
+			if ((y1 < y2) ? (y <= y2) : (y >= y2))
 			{
 				if (reverseXY)
 					CreateWalls(y, x, rx, ry, wall, cBrush);
@@ -279,31 +291,31 @@ void Simulation::CreateWallLine(int x1, int y1, int x2, int y2, int rx, int ry, 
 void Simulation::CreateWallBox(int x1, int y1, int x2, int y2, int wall)
 {
 	int i, j;
-	if (x1>x2)
+	if (x1 > x2)
 	{
 		i = x2;
 		x2 = x1;
 		x1 = i;
 	}
-	if (y1>y2)
+	if (y1 > y2)
 	{
 		j = y2;
 		y2 = y1;
 		y1 = j;
 	}
-	for (j=y1; j<=y2; j++)
-		for (i=x1; i<=x2; i++)
+	for (j = y1; j <= y2; j++)
+		for (i = x1; i <= x2; i++)
 			CreateWalls(i, j, 0, 0, wall, nullptr);
 }
 
 int Simulation::FloodWalls(int x, int y, int wall, int bm)
 {
 	int x1, x2, dy = CELL;
-	if (bm==-1)
+	if (bm == -1)
 	{
-		if (wall==WL_ERASE || wall==WL_ERASEALL)
+		if (wall == WL_ERASE || wall == WL_ERASEALL)
 		{
-			bm = bmap[y/CELL][x/CELL];
+			bm = bmap[y / CELL][x / CELL];
 			if (!bm)
 				return 0;
 		}
@@ -311,22 +323,22 @@ int Simulation::FloodWalls(int x, int y, int wall, int bm)
 			bm = 0;
 	}
 
-	if (bmap[y/CELL][x/CELL]!=bm)
+	if (bmap[y / CELL][x / CELL] != bm)
 		return 1;
 
 	// go left as far as possible
 	x1 = x2 = x;
-	while (x1>=CELL)
+	while (x1 >= CELL)
 	{
-		if (bmap[y/CELL][(x1-1)/CELL]!=bm)
+		if (bmap[y / CELL][(x1 - 1) / CELL] != bm)
 		{
 			break;
 		}
 		x1--;
 	}
-	while (x2<XRES-CELL)
+	while (x2 < XRES - CELL)
 	{
-		if (bmap[y/CELL][(x2+1)/CELL]!=bm)
+		if (bmap[y / CELL][(x2 + 1) / CELL] != bm)
 		{
 			break;
 		}
@@ -334,21 +346,21 @@ int Simulation::FloodWalls(int x, int y, int wall, int bm)
 	}
 
 	// fill span
-	for (x=x1; x<=x2; x++)
+	for (x = x1; x <= x2; x++)
 	{
 		if (!CreateWalls(x, y, 0, 0, wall, nullptr))
 			return 0;
 	}
 	// fill children
-	if (y>=CELL)
-		for (x=x1; x<=x2; x++)
-			if (bmap[(y-dy)/CELL][x/CELL]==bm)
-				if (!FloodWalls(x, y-dy, wall, bm))
+	if (y >= CELL)
+		for (x = x1; x <= x2; x++)
+			if (bmap[(y - dy) / CELL][x / CELL] == bm)
+				if (!FloodWalls(x, y - dy, wall, bm))
 					return 0;
-	if (y<YRES-CELL)
-		for (x=x1; x<=x2; x++)
-			if (bmap[(y+dy)/CELL][x/CELL]==bm)
-				if (!FloodWalls(x, y+dy, wall, bm))
+	if (y < YRES - CELL)
+		for (x = x1; x <= x2; x++)
+			if (bmap[(y + dy) / CELL][x / CELL] == bm)
+				if (!FloodWalls(x, y + dy, wall, bm))
 					return 0;
 	return 1;
 }
@@ -366,8 +378,8 @@ int Simulation::CreatePartFlags(int p, int x, int y, int c, int flags)
 		// or replace X and there's a non-energy particle on top with type X
 		// or replace X and there's an energy particle on top with type X
 		if ((!replaceModeSelected && (photons[y][x] || pmap[y][x])) ||
-			(!photons[y][x] && pmap[y][x] && TYP(pmap[y][x]) == replaceModeSelected) ||
-			(photons[y][x] && TYP(photons[y][x]) == replaceModeSelected))
+				(!photons[y][x] && pmap[y][x] && TYP(pmap[y][x]) == replaceModeSelected) ||
+				(photons[y][x] && TYP(photons[y][x]) == replaceModeSelected))
 		{
 			if (c)
 				create_part(photons[y][x] ? ID(photons[y][x]) : ID(pmap[y][x]), x, y, TYP(c), ID(c));
@@ -387,8 +399,8 @@ int Simulation::CreatePartFlags(int p, int x, int y, int c, int flags)
 		// or delete X and there's a non-energy particle on top with type X
 		// or delete X and there's an energy particle on top with type X
 		if ((!replaceModeSelected && (photons[y][x] || pmap[y][x])) ||
-			(!photons[y][x] && pmap[y][x] && TYP(pmap[y][x]) == replaceModeSelected) ||
-			(photons[y][x] && TYP(photons[y][x]) == replaceModeSelected))
+				(!photons[y][x] && pmap[y][x] && TYP(pmap[y][x]) == replaceModeSelected) ||
+				(photons[y][x] && TYP(photons[y][x]) == replaceModeSelected))
 		{
 			delete_part(x, y);
 		}
@@ -414,13 +426,19 @@ void Simulation::ApplyDecoration(int x, int y, int colR_, int colG_, int colB_, 
 	if (!rp)
 		return;
 
-	ta = float((parts[ID(rp)].dcolour>>24)&0xFF);
-	tr = float((parts[ID(rp)].dcolour>>16)&0xFF);
-	tg = float((parts[ID(rp)].dcolour>>8)&0xFF);
-	tb = float((parts[ID(rp)].dcolour)&0xFF);
+	ta = float((parts[ID(rp)].dcolour >> 24) & 0xFF);
+	tr = float((parts[ID(rp)].dcolour >> 16) & 0xFF);
+	tg = float((parts[ID(rp)].dcolour >> 8) & 0xFF);
+	tb = float((parts[ID(rp)].dcolour) & 0xFF);
 
-	ta /= 255.0f; tr /= 255.0f; tg /= 255.0f; tb /= 255.0f;
-	colR /= 255.0f; colG /= 255.0f; colB /= 255.0f; colA /= 255.0f;
+	ta /= 255.0f;
+	tr /= 255.0f;
+	tg /= 255.0f;
+	tb /= 255.0f;
+	colR /= 255.0f;
+	colG /= 255.0f;
+	colB /= 255.0f;
+	colA /= 255.0f;
 
 	if (mode == DECO_DRAW)
 	{
@@ -435,49 +453,49 @@ void Simulation::ApplyDecoration(int x, int y, int colR_, int colG_, int colB_, 
 	}
 	else if (mode == DECO_ADD)
 	{
-		//ta += (colA*strength)*colA;
-		tr += (colR*strength)*colA;
-		tg += (colG*strength)*colA;
-		tb += (colB*strength)*colA;
+		// ta += (colA*strength)*colA;
+		tr += (colR * strength) * colA;
+		tg += (colG * strength) * colA;
+		tb += (colB * strength) * colA;
 	}
 	else if (mode == DECO_SUBTRACT)
 	{
-		//ta -= (colA*strength)*colA;
-		tr -= (colR*strength)*colA;
-		tg -= (colG*strength)*colA;
-		tb -= (colB*strength)*colA;
+		// ta -= (colA*strength)*colA;
+		tr -= (colR * strength) * colA;
+		tg -= (colG * strength) * colA;
+		tb -= (colB * strength) * colA;
 	}
 	else if (mode == DECO_MULTIPLY)
 	{
-		tr *= 1.0f+(colR*strength)*colA;
-		tg *= 1.0f+(colG*strength)*colA;
-		tb *= 1.0f+(colB*strength)*colA;
+		tr *= 1.0f + (colR * strength) * colA;
+		tg *= 1.0f + (colG * strength) * colA;
+		tb *= 1.0f + (colB * strength) * colA;
 	}
 	else if (mode == DECO_DIVIDE)
 	{
-		tr /= 1.0f+(colR*strength)*colA;
-		tg /= 1.0f+(colG*strength)*colA;
-		tb /= 1.0f+(colB*strength)*colA;
+		tr /= 1.0f + (colR * strength) * colA;
+		tg /= 1.0f + (colG * strength) * colA;
+		tb /= 1.0f + (colB * strength) * colA;
 	}
 	else if (mode == DECO_SMUDGE)
 	{
-		if (x >= CELL && x < XRES-CELL && y >= CELL && y < YRES-CELL)
+		if (x >= CELL && x < XRES - CELL && y >= CELL && y < YRES - CELL)
 		{
 			float tas = 0.0f, trs = 0.0f, tgs = 0.0f, tbs = 0.0f;
 
 			int rx, ry;
 			float num = 0;
-			for (rx=-2; rx<3; rx++)
-				for (ry=-2; ry<3; ry++)
+			for (rx = -2; rx < 3; rx++)
+				for (ry = -2; ry < 3; ry++)
 				{
-					if (abs(rx)+abs(ry) > 2 && TYP(pmap[y+ry][x+rx]) && parts[ID(pmap[y+ry][x+rx])].dcolour)
+					if (abs(rx) + abs(ry) > 2 && TYP(pmap[y + ry][x + rx]) && parts[ID(pmap[y + ry][x + rx])].dcolour)
 					{
-						Particle part = parts[ID(pmap[y+ry][x+rx])];
+						Particle part = parts[ID(pmap[y + ry][x + rx])];
 						num += 1.0f;
-						float pa = ((float)((part.dcolour>>24)&0xFF)) / 255.f;
-						float pr = ((float)((part.dcolour>>16)&0xFF)) / 255.f;
-						float pg = ((float)((part.dcolour>> 8)&0xFF)) / 255.f;
-						float pb = ((float)((part.dcolour    )&0xFF)) / 255.f;
+						float pa = ((float)((part.dcolour >> 24) & 0xFF)) / 255.f;
+						float pr = ((float)((part.dcolour >> 16) & 0xFF)) / 255.f;
+						float pg = ((float)((part.dcolour >> 8) & 0xFF)) / 255.f;
+						float pb = ((float)((part.dcolour) & 0xFF)) / 255.f;
 						switch (deco_space)
 						{
 						case DECOSPACE_SRGB:
@@ -543,35 +561,41 @@ void Simulation::ApplyDecoration(int x, int y, int colR_, int colG_, int colB_, 
 				break;
 			}
 			if (!parts[ID(rp)].dcolour)
-				ta -= 3/255.0f;
+				ta -= 3 / 255.0f;
 		}
 	}
 
-	ta *= 255.0f; tr *= 255.0f; tg *= 255.0f; tb *= 255.0f;
-	ta += .5f; tr += .5f; tg += .5f; tb += .5f;
+	ta *= 255.0f;
+	tr *= 255.0f;
+	tg *= 255.0f;
+	tb *= 255.0f;
+	ta += .5f;
+	tr += .5f;
+	tg += .5f;
+	tb += .5f;
 
 	colA_ = int(ta);
 	colR_ = int(tr);
 	colG_ = int(tg);
 	colB_ = int(tb);
 
-	if(colA_ > 255)
+	if (colA_ > 255)
 		colA_ = 255;
-	else if(colA_ < 0)
+	else if (colA_ < 0)
 		colA_ = 0;
-	if(colR_ > 255)
+	if (colR_ > 255)
 		colR_ = 255;
-	else if(colR_ < 0)
+	else if (colR_ < 0)
 		colR_ = 0;
-	if(colG_ > 255)
+	if (colG_ > 255)
 		colG_ = 255;
-	else if(colG_ < 0)
+	else if (colG_ < 0)
 		colG_ = 0;
-	if(colB_ > 255)
+	if (colB_ > 255)
 		colB_ = 255;
-	else if(colB_ < 0)
+	else if (colB_ < 0)
 		colB_ = 0;
-	parts[ID(rp)].dcolour = ((colA_<<24)|(colR_<<16)|(colG_<<8)|colB_);
+	parts[ID(rp)].dcolour = ((colA_ << 24) | (colR_ << 16) | (colG_ << 8) | colB_);
 }
 
 void Simulation::ApplyDecorationPoint(int positionX, int positionY, int colR, int colG, int colB, int colA, int mode, Brush const &cBrush)
@@ -586,7 +610,7 @@ void Simulation::ApplyDecorationPoint(int positionX, int positionY, int colR, in
 
 void Simulation::ApplyDecorationLine(int x1, int y1, int x2, int y2, int colR, int colG, int colB, int colA, int mode, Brush const &cBrush)
 {
-	bool reverseXY = abs(y2-y1) > abs(x2-x1);
+	bool reverseXY = abs(y2 - y1) > abs(x2 - x1);
 	int x, y, dx, dy, sy, rx = 0, ry = 0;
 	float e = 0.0f, de;
 
@@ -613,10 +637,10 @@ void Simulation::ApplyDecorationLine(int x1, int y1, int x2, int y2, int colR, i
 	}
 	dx = x2 - x1;
 	dy = abs(y2 - y1);
-	de = dx ? dy/(float)dx : 0.0f;
+	de = dx ? dy / (float)dx : 0.0f;
 	y = y1;
-	sy = (y1<y2) ? 1 : -1;
-	for (x=x1; x<=x2; x++)
+	sy = (y1 < y2) ? 1 : -1;
+	for (x = x1; x <= x2; x++)
 	{
 		if (reverseXY)
 			ApplyDecorationPoint(y, x, colR, colG, colB, colA, mode, cBrush);
@@ -626,7 +650,7 @@ void Simulation::ApplyDecorationLine(int x1, int y1, int x2, int y2, int colR, i
 		if (e >= 0.5f)
 		{
 			y += sy;
-			if (!(rx+ry))
+			if (!(rx + ry))
 			{
 				if (reverseXY)
 					ApplyDecorationPoint(y, x, colR, colG, colB, colA, mode, cBrush);
@@ -642,93 +666,94 @@ void Simulation::ApplyDecorationBox(int x1, int y1, int x2, int y2, int colR, in
 {
 	int i, j;
 
-	if (x1>x2)
+	if (x1 > x2)
 	{
 		i = x2;
 		x2 = x1;
 		x1 = i;
 	}
-	if (y1>y2)
+	if (y1 > y2)
 	{
 		j = y2;
 		y2 = y1;
 		y1 = j;
 	}
-	for (j=y1; j<=y2; j++)
-		for (i=x1; i<=x2; i++)
+	for (j = y1; j <= y2; j++)
+		for (i = x1; i <= x2; i++)
 			ApplyDecoration(i, j, colR, colG, colB, colA, mode);
 }
 
 bool Simulation::ColorCompare(const RendererFrame &frame, int x, int y, int replaceR, int replaceG, int replaceB)
 {
-	auto pix = RGB::Unpack(frame[{ x, y }]);
+	auto pix = RGB::Unpack(frame[{x, y}]);
 	int r = pix.Red;
 	int g = pix.Green;
 	int b = pix.Blue;
-	int diff = std::abs(replaceR-r) + std::abs(replaceG-g) + std::abs(replaceB-b);
+	int diff = std::abs(replaceR - r) + std::abs(replaceG - g) + std::abs(replaceB - b);
 	return diff < 15;
 }
 
 void Simulation::ApplyDecorationFill(const RendererFrame &frame, int x, int y, int colR, int colG, int colB, int colA, int replaceR, int replaceG, int replaceB)
 {
 	int x1, x2;
-	char *bitmap = (char*)malloc(XRES*YRES); //Bitmap for checking
+	char *bitmap = (char *)malloc(XRES * YRES); // Bitmap for checking
 	if (!bitmap)
 		return;
-	memset(bitmap, 0, XRES*YRES);
+	memset(bitmap, 0, XRES * YRES);
 
-	if (!ColorCompare(frame, x, y, replaceR, replaceG, replaceB)) {
+	if (!ColorCompare(frame, x, y, replaceR, replaceG, replaceB))
+	{
 		free(bitmap);
 		return;
 	}
 
 	try
 	{
-		CoordStack& cs = getCoordStackSingleton();
+		CoordStack &cs = getCoordStackSingleton();
 		cs.clear();
-		
+
 		cs.push(x, y);
 		do
 		{
 			cs.pop(x, y);
 			x1 = x2 = x;
 			// go left as far as possible
-			while (x1>0)
+			while (x1 > 0)
 			{
-				if (bitmap[(x1-1)+y*XRES] || !ColorCompare(frame, x1-1, y, replaceR, replaceG, replaceB))
+				if (bitmap[(x1 - 1) + y * XRES] || !ColorCompare(frame, x1 - 1, y, replaceR, replaceG, replaceB))
 				{
 					break;
 				}
 				x1--;
 			}
 			// go right as far as possible
-			while (x2<XRES-1)
+			while (x2 < XRES - 1)
 			{
-				if (bitmap[(x1+1)+y*XRES] || !ColorCompare(frame, x2+1, y, replaceR, replaceG, replaceB))
+				if (bitmap[(x1 + 1) + y * XRES] || !ColorCompare(frame, x2 + 1, y, replaceR, replaceG, replaceB))
 				{
 					break;
 				}
 				x2++;
 			}
 			// fill span
-			for (x=x1; x<=x2; x++)
+			for (x = x1; x <= x2; x++)
 			{
 				ApplyDecoration(x, y, colR, colG, colB, colA, DECO_DRAW);
-				bitmap[x+y*XRES] = 1;
+				bitmap[x + y * XRES] = 1;
 			}
 
 			if (y >= 1)
-				for (x=x1; x<=x2; x++)
-					if (!bitmap[x+(y-1)*XRES] && ColorCompare(frame, x, y-1, replaceR, replaceG, replaceB))
-						cs.push(x, y-1);
+				for (x = x1; x <= x2; x++)
+					if (!bitmap[x + (y - 1) * XRES] && ColorCompare(frame, x, y - 1, replaceR, replaceG, replaceB))
+						cs.push(x, y - 1);
 
-			if (y < YRES-1)
-				for (x=x1; x<=x2; x++)
-					if (!bitmap[x+(y+1)*XRES] && ColorCompare(frame, x, y+1, replaceR, replaceG, replaceB))
-						cs.push(x, y+1);
+			if (y < YRES - 1)
+				for (x = x1; x <= x2; x++)
+					if (!bitmap[x + (y + 1) * XRES] && ColorCompare(frame, x, y + 1, replaceR, replaceG, replaceB))
+						cs.push(x, y + 1);
 		} while (cs.getSize() > 0);
 	}
-	catch (std::exception& e)
+	catch (std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
 		free(bitmap);
@@ -757,7 +782,7 @@ int Simulation::CreateParts(int p, int positionX, int positionY, int c, Brush co
 	}
 	else if (c == PT_TESC)
 	{
-		int newtmp = (radiusX*4+radiusY*4+7);
+		int newtmp = (radiusX * 4 + radiusY * 4 + 7);
 		if (newtmp > 300)
 			newtmp = 300;
 		c = PMAP(newtmp, c);
@@ -793,7 +818,7 @@ int Simulation::CreateParts(int p, int x, int y, int rx, int ry, int c, int flag
 	}
 	else if (c == PT_TESC)
 	{
-		int newtmp = (rx*4+ry*4+7);
+		int newtmp = (rx * 4 + ry * 4 + 7);
 		if (newtmp > 300)
 			newtmp = 300;
 		c = PMAP(newtmp, c);
@@ -801,7 +826,7 @@ int Simulation::CreateParts(int p, int x, int y, int rx, int ry, int c, int flag
 
 	for (int j = -ry; j <= ry; j++)
 		for (int i = -rx; i <= rx; i++)
-			if (CreatePartFlags(p, x+i, y+j, c, flags))
+			if (CreatePartFlags(p, x + i, y + j, c, flags))
 				created = true;
 	return !created;
 }
@@ -809,7 +834,7 @@ int Simulation::CreateParts(int p, int x, int y, int rx, int ry, int c, int flag
 void Simulation::CreateLine(int x1, int y1, int x2, int y2, int c, Brush const &cBrush, int flags)
 {
 	int x, y, dx, dy, sy, rx = cBrush.GetRadius().X, ry = cBrush.GetRadius().Y;
-	bool reverseXY = abs(y2-y1) > abs(x2-x1);
+	bool reverseXY = abs(y2 - y1) > abs(x2 - x1);
 	float e = 0.0f, de;
 	if (reverseXY)
 	{
@@ -831,10 +856,10 @@ void Simulation::CreateLine(int x1, int y1, int x2, int y2, int c, Brush const &
 	}
 	dx = x2 - x1;
 	dy = abs(y2 - y1);
-	de = dx ? dy/(float)dx : 0.0f;
+	de = dx ? dy / (float)dx : 0.0f;
 	y = y1;
-	sy = (y1<y2) ? 1 : -1;
-	for (x=x1; x<=x2; x++)
+	sy = (y1 < y2) ? 1 : -1;
+	for (x = x1; x <= x2; x++)
 	{
 		if (reverseXY)
 			CreateParts(-2, y, x, c, cBrush, flags);
@@ -844,7 +869,7 @@ void Simulation::CreateLine(int x1, int y1, int x2, int y2, int c, Brush const &
 		if (e >= 0.5f)
 		{
 			y += sy;
-			if (!(rx+ry) && ((y1<y2) ? (y<=y2) : (y>=y2)))
+			if (!(rx + ry) && ((y1 < y2) ? (y <= y2) : (y >= y2)))
 			{
 				if (reverseXY)
 					CreateParts(-2, y, x, c, cBrush, flags);
@@ -859,28 +884,28 @@ void Simulation::CreateLine(int x1, int y1, int x2, int y2, int c, Brush const &
 void Simulation::CreateBox(int p, int x1, int y1, int x2, int y2, int c, int flags)
 {
 	int i, j;
-	if (x1>x2)
+	if (x1 > x2)
 	{
 		i = x2;
 		x2 = x1;
 		x1 = i;
 	}
-	if (y1>y2)
+	if (y1 > y2)
 	{
 		j = y2;
 		y2 = y1;
 		y1 = j;
 	}
-	for (j=y2; j>=y1; j--)
-		for (i=x1; i<=x2; i++)
+	for (j = y2; j >= y1; j--)
+		for (i = x1; i <= x2; i++)
 			CreateParts(p, i, j, 0, 0, c, flags);
 }
 
 int Simulation::FloodParts(int x, int y, int fullc, int cm, int flags)
 {
 	int c = TYP(fullc);
-	int x1, x2, dy = (c<PT_NUM)?1:CELL;
-	int coord_stack_limit = XRES*YRES;
+	int x1, x2, dy = (c < PT_NUM) ? 1 : CELL;
+	int coord_stack_limit = XRES * YRES;
 	unsigned short (*coord_stack)[2];
 	int coord_stack_size = 0;
 	int created_something = 0;
@@ -890,14 +915,14 @@ int Simulation::FloodParts(int x, int y, int fullc, int cm, int flags)
 	char *bitmap = bitmapPtr.get();
 	std::fill(&bitmap[0], &bitmap[0] + XRES * YRES, 0);
 
-	if (cm==-1)
+	if (cm == -1)
 	{
-		//if initial flood point is out of bounds, do nothing
-		if (c != 0 && (x < CELL || x >= XRES-CELL || y < CELL || y >= YRES-CELL || c == PT_SPRK))
+		// if initial flood point is out of bounds, do nothing
+		if (c != 0 && (x < CELL || x >= XRES - CELL || y < CELL || y >= YRES - CELL || c == PT_SPRK))
 			return 1;
 		else if (x < 0 || x >= XRES || y < 0 || y >= YRES)
 			return 1;
-		
+
 		if (c == 0)
 		{
 			cm = TYP(pmap[y][x]);
@@ -906,7 +931,7 @@ int Simulation::FloodParts(int x, int y, int fullc, int cm, int flags)
 				cm = TYP(photons[y][x]);
 				if (!cm)
 				{
-					if (bmap[y/CELL][x/CELL])
+					if (bmap[y / CELL][x / CELL])
 						return FloodWalls(x, y, WL_ERASE, -1);
 					else
 						return -1;
@@ -916,14 +941,14 @@ int Simulation::FloodParts(int x, int y, int fullc, int cm, int flags)
 		else
 			cm = 0;
 	}
-	
+
 	if (c != 0 && IsWallBlocking(x, y, c))
 		return 1;
 
 	if (!FloodFillPmapCheck(x, y, cm))
 		return 1;
 
-	coord_stack = (short unsigned int (*)[2])malloc(sizeof(unsigned short)*2*coord_stack_limit);
+	coord_stack = (short unsigned int (*)[2])malloc(sizeof(unsigned short) * 2 * coord_stack_limit);
 	coord_stack[coord_stack_size][0] = x;
 	coord_stack[coord_stack_size][1] = y;
 	coord_stack_size++;
@@ -937,29 +962,29 @@ int Simulation::FloodParts(int x, int y, int fullc, int cm, int flags)
 		y = coord_stack[coord_stack_size][1];
 		x1 = x2 = x;
 		// go left as far as possible
-		while (c?x1>CELL:x1>0)
+		while (c ? x1 > CELL : x1 > 0)
 		{
-			if (bitmap[(y * XRES) + x1 - 1] || !FloodFillPmapCheck(x1-1, y, cm) || (c != 0 && IsWallBlocking(x1-1, y, c)))
+			if (bitmap[(y * XRES) + x1 - 1] || !FloodFillPmapCheck(x1 - 1, y, cm) || (c != 0 && IsWallBlocking(x1 - 1, y, c)))
 			{
 				break;
 			}
 			x1--;
 		}
 		// go right as far as possible
-		while (c?x2<XRES-CELL-1:x2<XRES-1)
+		while (c ? x2 < XRES - CELL - 1 : x2 < XRES - 1)
 		{
-			if (bitmap[(y * XRES) + x2 + 1] || !FloodFillPmapCheck(x2+1, y, cm) || (c != 0 && IsWallBlocking(x2+1, y, c)))
+			if (bitmap[(y * XRES) + x2 + 1] || !FloodFillPmapCheck(x2 + 1, y, cm) || (c != 0 && IsWallBlocking(x2 + 1, y, c)))
 			{
 				break;
 			}
 			x2++;
 		}
 		// fill span
-		for (x=x1; x<=x2; x++)
+		for (x = x1; x <= x2; x++)
 		{
 			if (!fullc)
 			{
-				if (elements[cm].Properties&TYPE_ENERGY)
+				if (elements[cm].Properties & TYPE_ENERGY)
 				{
 					if (photons[y][x])
 					{
@@ -978,34 +1003,34 @@ int Simulation::FloodParts(int x, int y, int fullc, int cm, int flags)
 			bitmap[(y * XRES) + x] = 1;
 		}
 
-		if (c?y>=CELL+dy:y>=dy)
-			for (x=x1; x<=x2; x++)
-				if (!bitmap[((y - dy) * XRES) + x] && FloodFillPmapCheck(x, y-dy, cm) && (c == 0 || !IsWallBlocking(x, y-dy, c)))
+		if (c ? y >= CELL + dy : y >= dy)
+			for (x = x1; x <= x2; x++)
+				if (!bitmap[((y - dy) * XRES) + x] && FloodFillPmapCheck(x, y - dy, cm) && (c == 0 || !IsWallBlocking(x, y - dy, c)))
 				{
 					coord_stack[coord_stack_size][0] = x;
-					coord_stack[coord_stack_size][1] = y-dy;
+					coord_stack[coord_stack_size][1] = y - dy;
 					coord_stack_size++;
-					if (coord_stack_size>=coord_stack_limit)
+					if (coord_stack_size >= coord_stack_limit)
 					{
 						free(coord_stack);
 						return -1;
 					}
 				}
 
-		if (c?y<YRES-CELL-dy:y<YRES-dy)
-			for (x=x1; x<=x2; x++)
-				if (!bitmap[((y + dy) * XRES) + x] && FloodFillPmapCheck(x, y+dy, cm) && (c == 0 || !IsWallBlocking(x, y+dy, c)))
+		if (c ? y < YRES - CELL - dy : y < YRES - dy)
+			for (x = x1; x <= x2; x++)
+				if (!bitmap[((y + dy) * XRES) + x] && FloodFillPmapCheck(x, y + dy, cm) && (c == 0 || !IsWallBlocking(x, y + dy, c)))
 				{
 					coord_stack[coord_stack_size][0] = x;
-					coord_stack[coord_stack_size][1] = y+dy;
+					coord_stack[coord_stack_size][1] = y + dy;
 					coord_stack_size++;
-					if (coord_stack_size>=coord_stack_limit)
+					if (coord_stack_size >= coord_stack_limit)
 					{
 						free(coord_stack);
 						return -1;
 					}
 				}
-	} while (coord_stack_size>0);
+	} while (coord_stack_size > 0);
 	free(coord_stack);
 	return created_something;
 }

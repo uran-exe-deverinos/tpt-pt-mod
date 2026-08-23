@@ -31,6 +31,10 @@ public:
 	std::vector<float> FanVelocityX;
 	std::vector<float> FanVelocityY;
 
+	std::vector<float> MCharge;
+	std::vector<float> MVelocity;
+	std::vector<float> MVelocityX;
+	std::vector<float> MVelocityY;
 
 	std::vector<Particle> PortalParticles;
 	std::vector<int> WirelessData;

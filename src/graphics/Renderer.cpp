@@ -1004,9 +1004,10 @@ void Renderer::draw_magnetic()
 	for (int y=0; y<YCELLS; y++)
 		for (int x=0; x<XCELLS; x++)
 		{
-			r = clamp_flt(fabsf(sim->charge[y][x]*16.0f), 0.0f, 255.0f);
-			g = clamp_flt(fabsf(sim->mgx[y][x]*2.0f), 0.0f, 255.0f);
-			b = clamp_flt(fabsf(sim->mgy[y][x]*2.0f), 0.0f, 255.0f);
+			r = clamp_flt(fabsf(sim->charge[y][x]*20.0f), 0.0f, 255.0f);
+			r += clamp_flt(fabsf(sim->vvelmg[y][x]*2.0f), 0.0f, 255.0f);
+			g = clamp_flt(fabsf(sim->mgx[y][x]*4.0f), 0.0f, 255.0f);
+			b = clamp_flt(fabsf(sim->mgy[y][x]*4.0f), 0.0f, 255.0f);
 			for (int j=0; j<CELL; j++)//draws the colors
 				for (int i=0; i<CELL; i++)
 					video[{x*CELL+i,y*CELL+j}] = RGB(r, g, b).Pack();

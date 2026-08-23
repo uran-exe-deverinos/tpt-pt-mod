@@ -54,6 +54,10 @@ static int update(UPDATE_FUNC_ARGS)
 {
 	auto &sd = SimulationData::CRef();
 	auto &elements = sd.elements;
+
+	parts[i].vx += sim->mgx[y/4][x/4]/4.0f;
+	parts[i].vy += sim->mgy[y/4][x/4]/4.0f;
+
 	for (auto rx = -2; rx <= 2; rx++)
 	{
 		for (auto ry = -2; ry <= 2; ry++)

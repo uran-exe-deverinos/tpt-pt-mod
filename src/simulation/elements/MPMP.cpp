@@ -31,7 +31,7 @@ void Element::Element_MPMP()
 
 	DefaultProperties.temp = 273.15f+22.0f;
 	HeatConduct = 0;
-	Description = "Thermostat. Changes temprature to its tempemrature when activated. (use HEAT/COOL).";
+	Description = "Magnetic Pump. sets charge to its temprature when activated. (use HEAT/COOL).";
 
 	Properties = TYPE_SOLID;
 
@@ -63,7 +63,7 @@ static int update(UPDATE_FUNC_ARGS)
 		if (parts[i].tmp != 1)
     {
       auto r = pmap[y][x];
-      sim->charge[y/CELL][x/CELL]=parts[ID(r)].temp-273.15f;
+      sim->charge[y/CELL][x/CELL]=parts[i].temp-273.15f;
     }
 		for (auto rx = -2; rx <= 2; rx++)
 		{
