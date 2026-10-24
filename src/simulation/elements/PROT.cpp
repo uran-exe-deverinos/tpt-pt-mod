@@ -60,6 +60,8 @@ static int update(UPDATE_FUNC_ARGS)
 	int under = pmap[y][x];
 	int utype = TYP(under);
 	int uID = ID(under);
+	parts[i].vx -= (sim->mgx[y/4][x/4]/10.0f);
+	parts[i].vy -= (sim->mgy[y/4][x/4]/10.0f);
 	switch (utype)
 	{
 	case PT_SPRK:

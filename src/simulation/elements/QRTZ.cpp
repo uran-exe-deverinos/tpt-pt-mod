@@ -52,7 +52,7 @@ int Element_QRTZ_update(UPDATE_FUNC_ARGS)
 {
 	int t = parts[i].type;
 	if (t == PT_QRTZ)
-	{
+	{ 
 		auto press = int(sim->pv[y/CELL][x/CELL] * 64);
 		auto diffTolerance = parts[i].temp * 1.0666f;
 		if (press - parts[i].tmp3 > diffTolerance || press - parts[i].tmp3 < -diffTolerance)

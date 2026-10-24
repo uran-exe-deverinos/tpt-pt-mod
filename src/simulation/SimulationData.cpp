@@ -294,6 +294,9 @@ String SimulationData::BasicParticleInfo(Particle const &sample_part) const
 	}
 	else if(type == PT_BRMT && IsElement(ctype))
 	{
+		sampleInfo << "Broken " << ElementResolve(ctype, -1);
+	}else if(type == PT_OXDE && IsElement(ctype))
+	{
 		sampleInfo << "Rusted " << ElementResolve(ctype, -1);
 	}
 	else if ((type == PT_PIPE || type == PT_PPIP) && IsElement(ctype))
@@ -303,6 +306,9 @@ String SimulationData::BasicParticleInfo(Particle const &sample_part) const
 			sampleInfo << ElementResolve(type, -1) << " with molten " << ElementResolve(storedCtype, -1);
 		}
 		else if (ctype == PT_BRMT && IsElement(storedCtype))
+		{
+			sampleInfo << ElementResolve(type, -1) << " with broken " << ElementResolve(storedCtype, -1);
+		}else if (ctype == PT_OXDE && IsElement(storedCtype))
 		{
 			sampleInfo << ElementResolve(type, -1) << " with rusted " << ElementResolve(storedCtype, -1);
 		}

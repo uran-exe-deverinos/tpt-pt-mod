@@ -212,7 +212,8 @@ simulation_elem_names = [
 	'HIFQ',
 	'LOFQ',
 	'MPMP',
-	'OSC'
+	'OSC',
+	'OXDE'
 ]
 
 simulation_elem_src = []

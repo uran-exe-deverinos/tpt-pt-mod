@@ -54,7 +54,8 @@ static int update(UPDATE_FUNC_ARGS)
 	auto &elements = sd.elements;
 	if(sim->pv[y/CELL][x/CELL]>=1.0f){
 		sim->part_change_type(i,x,y,PT_BRMT);
-		parts[i].tmp = 112080096;
+		parts[i].DATAH = 0x7C7C91;
+		parts[i].DATAH += sim->rng.between(0, 4)+;
 	}
 	// https://i.imgflip.com/6gp1di.jpg
 	// I LOVE [reusing code] CHARLIE
@@ -99,8 +100,8 @@ static int update(UPDATE_FUNC_ARGS)
 	{
 		//@ BMTL -> BRMT
 		
-		parts[i].tmp = 112080096;
-		sim->part_change_type(i,x,y,PT_BRMT);
+		parts[i].DATAH = 112080096;
+		sim->part_change_type(i,x,y,PT_OXDE);
 	}
 
 	return 0;

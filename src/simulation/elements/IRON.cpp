@@ -1,6 +1,7 @@
 #include "simulation/ElementCommon.h"
 
 static int update(UPDATE_FUNC_ARGS);
+static int graphics(GRAPHICS_FUNC_ARGS);
 
 void Element::Element_IRON()
 {
@@ -43,11 +44,15 @@ void Element::Element_IRON()
 	HighTemperatureTransition = PT_LAVA; //@ IRON -> LAVA(IRON)
 
 	Update = &update;
+	Graphics = &graphics;
 }
 
 static int update(UPDATE_FUNC_ARGS)
 {
 	sim->mediumd[y/4][x/4] += 2.0f/16.0f;
+	
+	sim->charge[y/4][x/4] = (parts[i].DATAF+sim->charge[y/4][x/4]*3)/4.0f;
+	parts[i].DATAF = ((sim->charge[y/4][x/4]/8.0f)+parts[i].DATAF)/2.0f;
 	if (parts[i].life)
 		return 0;
 	auto tryBreak = [&]() {
@@ -102,5 +107,15 @@ static int update(UPDATE_FUNC_ARGS)
 		parts[i].tmp = sim->rng.between(20, 29);
 		parts[i].ctype = PT_IRON;
 	}
+	
+	return 0;
+}
+
+static int graphics(GRAPHICS_FUNC_ARGS)
+{
+	auto p = cpart->DATAF * 0.3f;
+	*colr += p;
+	*colg += p;
+	*colb += p;
 	return 0;
 }

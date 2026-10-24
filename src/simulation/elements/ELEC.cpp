@@ -1,4 +1,6 @@
 #include "simulation/ElementCommon.h"
+#include <iostream>
+using namespace std;
 
 static int update(UPDATE_FUNC_ARGS);
 static int graphics(GRAPHICS_FUNC_ARGS);
@@ -55,8 +57,14 @@ static int update(UPDATE_FUNC_ARGS)
 	auto &sd = SimulationData::CRef();
 	auto &elements = sd.elements;
 
-	parts[i].vx += sim->mgx[y/4][x/4]/4.0f;
-	parts[i].vy += sim->mgy[y/4][x/4]/4.0f;
+	parts[i].vx -= (sim->mgx[y/4][x/4]/4.0f);
+	parts[i].vy -= (sim->mgy[y/4][x/4]/4.0f);
+	parts[i].vx = parts[i].vx/(1.0f+std::abs(std::floorf(sim->charge[y/4][x/4]*10.0f)/100.0f));
+	parts[i].vy = parts[i].vy/(1.0f+std::abs(std::floorf(sim->charge[y/4][x/4]*10.0f)/100.0f));
+	sim->charge[y/4][x/4] -= .1f;
+	if(std::_Float_abs(sim->charge[y/4][x/4]) < 0.01f)
+		sim->charge[y/4][x/4] = 0.0f;
+
 
 	for (auto rx = -2; rx <= 2; rx++)
 	{

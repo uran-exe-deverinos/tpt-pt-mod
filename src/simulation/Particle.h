@@ -13,6 +13,8 @@ struct Particle
 	int flags;
 	int tmp;
 	int tmp2;
+	float DATAF;
+	unsigned int DATAH;
 	unsigned int dcolour;
 	/** Returns a list of properties, their type and offset within the structure that can be changed
 	 by higher-level processes referring to them by name such as Lua or the property tool **/
@@ -29,3 +31,5 @@ constexpr unsigned int FIELD_TMP   =  9;
 constexpr unsigned int FIELD_TMP2  = 10;
 constexpr unsigned int FIELD_TMP3  = 11;
 constexpr unsigned int FIELD_TMP4  = 12;
+constexpr unsigned int FIELD_DATAF = 20;//man im scared to scew something up
+constexpr unsigned int FIELD_DATAH = 21;

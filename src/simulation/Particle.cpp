@@ -19,6 +19,8 @@ std::vector<StructProperty> const &Particle::GetProperties()
 		{ "tmp3"   , StructProperty::Integer     , (intptr_t)(offsetof(Particle, tmp3   )) },
 		{ "tmp4"   , StructProperty::Integer     , (intptr_t)(offsetof(Particle, tmp4   )) },
 		{ "dcolour", StructProperty::UInteger    , (intptr_t)(offsetof(Particle, dcolour)) },
+		{ "DATAF"  , StructProperty::Float       , (intptr_t)(offsetof(Particle, DATAF  )) },
+		{ "DATAH"  , StructProperty::UInteger    , (intptr_t)(offsetof(Particle, DATAH  )) },
 	};
 	return properties;
 }
@@ -44,6 +46,8 @@ std::vector<unsigned int> const &Particle::PossiblyCarriesType()
 			FIELD_TMP2,
 			FIELD_TMP3,
 			FIELD_TMP4,
+			FIELD_DATAF,
+			FIELD_DATAH,
 		};
 
 		DoOnce()

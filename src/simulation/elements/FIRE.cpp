@@ -62,8 +62,19 @@ int Element_FIRE_update(UPDATE_FUNC_ARGS)
 	switch (t)
 	{
 	case PT_PLSM:
+		parts[i].vx += (sim->mgx[y/4][x/4]/10.0f);
+		parts[i].vy += (sim->mgy[y/4][x/4]/10.0f);
+		sim->charge[y/4][x/4] *= 0.99f;
+
+		if(sim->rng.chance(std::abs(sim->charge[y/4][x/4]), 400))
+		{
+			sim->charge[y/4][x/4] /= 2.0f;
+			parts[i].life += sim->rng.between(1, 3);
+		}
+
 		if (parts[i].life <=1)
 		{
+			
 			if (parts[i].ctype == PT_NBLE)
 			{
 				//@ PLSM(NBLE) -> NBLE

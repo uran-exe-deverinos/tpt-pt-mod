@@ -22,7 +22,8 @@ std::array<float, 4> Magnetism::Update(int xz, int yz)
     return returns;
   }
 
-  if (bmap_blockmag[yz][xz]){
+  if (bmap_blockmag[yz][xz])
+  {
     returns[0] = 0.0f;
     returns[1] = 0.0f;
     returns[2] = 0.0f;
@@ -35,8 +36,9 @@ std::array<float, 4> Magnetism::Update(int xz, int yz)
   float mgx = 0.0f;
   float mgy = 0.0f;
   float density = sim.mediumd[yz][xz] + 1;
-  constexpr float springStrength = 0.02f;
+  constexpr float springStrength = 0.08f;
   constexpr float damping = 0.99f;
+  constexpr float velocityChargeInfluence = 0.25f;
   constexpr float maxCharge = 400.0f;
   constexpr float maxVelocity = 1.0f;
 
@@ -60,7 +62,9 @@ std::array<float, 4> Magnetism::Update(int xz, int yz)
     }
   }
   vel = std::clamp(vel * damping, -maxVelocity, maxVelocity);
-  charge = std::clamp(charge + vel, -maxCharge, maxCharge);
+  charge = std::clamp(charge + vel * velocityChargeInfluence, -maxCharge, maxCharge);
+  if (std::abs(charge) < 0.01f)
+    charge = 0.0f;
   returns[0] = charge;
   returns[1] = vel;
   returns[2] = mgx;

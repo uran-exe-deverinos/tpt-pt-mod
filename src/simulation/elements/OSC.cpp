@@ -45,7 +45,7 @@ void Element::Element_OSC()
 	HighTemperatureTransition = NT;
 
 	DefaultProperties.life = 10;
-	DefaultProperties.tmp = 1;
+	DefaultProperties.tmp = 10;
 
 	Update = &update;
 	Graphics = &graphics;
@@ -68,8 +68,8 @@ static int update(UPDATE_FUNC_ARGS)
 		}
     {
       auto r = pmap[y][x];
-      sim->charge[y/CELL][x/CELL]=parts[ID(i)].temp-273.15f;
-			sim->charge[y/CELL][x/CELL] *= sinf(parts[i].tmp2 * 0.01f * (parts[ID(r)].tmp));
+      sim->charge[y/CELL][x/CELL]=parts[i].temp-273.15f;
+			sim->charge[y/CELL][x/CELL] *= sinf(parts[i].tmp2 * 0.01f * (parts[i].tmp));
 			parts[i].tmp2++;
     }
 		for (auto rx = -2; rx <= 2; rx++)

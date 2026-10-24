@@ -64,7 +64,7 @@ static int update(UPDATE_FUNC_ARGS)
 		sim->part_change_type(i, x, y, PT_LAVA);
 		parts[i].ctype = metal;
 		parts[i].life = int(restrict_flt((parts[i].temp-700)/7, 0, 400));
-		parts[i].tmp = 0;//cause christ was that a high value
+		parts[i].DATAH = 0;//cause christ was that a high value
 		return 1;
 	}
 
@@ -104,7 +104,7 @@ static int graphics(GRAPHICS_FUNC_ARGS)//holy moly im so proud of this code
 {
 	
 	if(cpart->ctype!=PT_NONE){
-		auto h = cpart->tmp;
+		auto h = cpart->DATAH;
 		*colr = (h/1000000)%1000;
 		*colg = (h/1000)%1000;
 		*colb = h%1000;}

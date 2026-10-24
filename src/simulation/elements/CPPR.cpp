@@ -113,27 +113,27 @@ static int update(UPDATE_FUNC_ARGS){
 		sim->air->bmap_blockairh[y/CELL][x/CELL] = 0x8;
 	}
 
-	if (parts[i].tmp2>0&&parts[i].temp>1300.0f){
-		parts[i].tmp2=0;
-	}else if(parts[i].temp>400.0f+273.15f && parts[i].tmp2>0){
+	if (parts[i].DATAH>0&&parts[i].temp>1300.0f){
+		parts[i].DATAH=0;
+	}else if(parts[i].temp>400.0f+273.15f && parts[i].DATAH>0){
 		if(sim->rng.chance(1,5)){
-			parts[i].tmp2-=1;
+			parts[i].DATAH-=1;
 			parts[i].temp-=1.5f;
 		}
 	}
 
-	if (oxidize()&&parts[i].tmp2<=90){
-		parts[i].tmp2+=sim->rng.between(1,20);
-	}else if(parts[i].tmp2>=90){
-		sim->part_change_type(i,x,y,PT_BRMT);
+	if (oxidize()&&parts[i].DATAH<=90){
+		parts[i].DATAH+=sim->rng.between(1,20);
+	}else if(parts[i].DATAH>=90){
+		sim->part_change_type(i,x,y,PT_OXDE);
 		parts[i].ctype = PT_CPPR;
-		parts[i].tmp=80173146;
+		parts[i].DATAH=80173146;
 	}
   return 0;
 }
 static int graphics(GRAPHICS_FUNC_ARGS){
 	int z=cpart->tmp3;
-	int oxi=cpart->tmp2;
+	int oxi=cpart->DATAF;
 	*colr += int(z*3-(oxi*0.8f));
 	*colg += (z*2)+(oxi);
 	*colb += (z*2)+(oxi);
@@ -142,6 +142,6 @@ static int graphics(GRAPHICS_FUNC_ARGS){
 
 static void create(ELEMENT_CREATE_FUNC_ARGS)
 {
-	sim->parts[i].tmp2=0;
+	sim->parts[i].DATAH=0;
 	sim->parts[i].tmp3=sim->rng.between(0,10);
 }
