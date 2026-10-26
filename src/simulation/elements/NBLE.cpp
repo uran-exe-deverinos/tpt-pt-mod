@@ -93,3 +93,32 @@ static int update(UPDATE_FUNC_ARGS)
 	}
 	return 0;
 }
+
+int NBLE_MIX_UPDATE(UPDATE_FUNC_ARGS)
+{
+	return 0;
+}
+
+static void create(ELEMENT_CREATE_FUNC_ARGS)
+{
+	int r=sim->rng.between(1,21);
+	if (r<=6)
+	{//placeholder until i get all the noble gases
+		sim->parts[i].ctype = 1;//HELI
+	}else if (r<=11 && r>6)
+	{
+		sim->parts[i].ctype = 2;//NEON
+	}else if (r<=15 && r>11)
+	{
+		sim->parts[i].ctype = 3;//ARGN
+	}else if (r<=18 && r>15)
+	{
+		sim->parts[i].ctype = 4;//KRYP
+	}else if (r<=20 && r>18)
+	{
+		sim->parts[i].ctype = 5;//XNON
+	}else
+	{
+		sim->parts[i].ctype = 6;//RDON
+	}
+}

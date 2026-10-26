@@ -57,15 +57,16 @@ static int update(UPDATE_FUNC_ARGS)
 	int metal = parts[i].ctype;
 	if (metal <= 0 || metal >= PT_NUM || metal == PT_LAVA || !elements[metal].Enabled)
 		metal = PT_BRMT;
-	if (parts[i].temp >= elements[metal].HighTemperature+100)
+	if (parts[i].temp >= elements[metal].HighTemperature+100 || (metal==0))
 	{
 		//@ OXDE -> molten somthing(original metal)
 		
-		sim->create_part(i, x, y, PT_LAVA);
-		sim->delete_part(i);
+		sim->part_change_type(i, x, y, PT_LAVA);
 		parts[i].ctype = metal;
-		
+		parts[i].life = int(restrict_flt((parts[i].temp-700)/7, 0, 400));
+		parts[i].tmp = 0;
 		return 1;
+
 	}
 
 	if (parts[i].temp > 523.15f)//250.0f+273.15f

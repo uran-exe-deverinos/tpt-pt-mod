@@ -61,7 +61,6 @@ static int update(UPDATE_FUNC_ARGS)
 	parts[i].vy -= (sim->mgy[y/4][x/4]/4.0f);
 	parts[i].vx = parts[i].vx/(1.0f+std::abs(std::floorf(sim->charge[y/4][x/4]*10.0f)/100.0f));
 	parts[i].vy = parts[i].vy/(1.0f+std::abs(std::floorf(sim->charge[y/4][x/4]*10.0f)/100.0f));
-	sim->charge[y/4][x/4] -= .1f;
 	if(std::_Float_abs(sim->charge[y/4][x/4]) < 0.01f)
 		sim->charge[y/4][x/4] = 0.0f;
 
@@ -115,11 +114,27 @@ static int update(UPDATE_FUNC_ARGS)
 			case PT_PROT: // this is the correct reaction, not NEUT, but leaving NEUT in anyway
 				if (parts[ID(r)].tmp2 & 0x1)
 					break;
+			case PT_CLWT:
+			case PT_BLCH:
+				// ELEC+CLWT/BLCH -> H2/O2/CLOR
+				if (sim->rng.chance(1, 3))
+					sim->create_part(ID(r), x+rx, y+ry, PT_O2);
+				else if (sim->rng.chance(1, 2))
+					sim->create_part(ID(r), x+rx, y+ry, PT_H2);
+				else
+					sim->create_part(ID(r), x+rx, y+ry, PT_CLOR);
+				sim->kill_part(i);//the killyourelectroninator is working great
+				return 1;
 			case PT_NEUT:
 				//@ ELEC + PROT/NEUT -> H2
 				sim->part_change_type(ID(r), x+rx, y+ry, PT_H2);
 				parts[ID(r)].life = 0;
 				parts[ID(r)].ctype = 0;
+				sim->kill_part(i);
+				break;
+			case PT_ARAD:
+				//placeholder until i get helium
+				sim->create_part(ID(r), x+rx, y+ry, PT_NBLE);
 				sim->kill_part(i);
 				break;
 			case PT_DEUT:

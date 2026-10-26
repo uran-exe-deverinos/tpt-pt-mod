@@ -1,0 +1,76 @@
+new tabs:
+alkali+alkaline+halogens (called highly reactive)
+metals(all of em)
+metaloids+nonmetals(called stable elements)
++noble gases
+lanthanoids
+actinides
+alloys
+
+elements:
+HYGN-X
+HELI-inert gas, can be used for fusion like HYGN, if under pressure, heats up 125C and tmp is set to one, if under low pressure temp is negative one and temperature drops 125C. when under normal pressure tmp is set back to zero and temprature back to before, if not cooled or heated, temperature does not change if tmp is either one or negative one. can be cooled down to liquid helium.
+LHLI-very cold liquid
+LITH-X
+BRYL-HIFQ passes through, turns PHOT into HIFQ, gets rid of LOFQ. ok thermal conduction, sprk moves as slow as in water, breaks at 10 pressure
+BORO
+CRBN
+NITR
+OXYG-X
+FLUR
+NEON
+SDIM-sodium
+SDOX-sodium oxide
+MGSM-magnesium
+ALUM
+SILI-solid version of SLCN, can be doped with PHOS, ARIC, BORO, and GALM. broken at high pressure into SLCN
+SCNG-silicon gas, used to make SILI, reached when SLCN is extremely hot (4265C)
+PHOS
+SLFR
+CLOR
+CLWT-chlorine water
+LCLR-liquid chlorine
+FZCL-frozen chlorine
+ARGN
+PTSM-potassium
+CLCM-calcium
+SCAN
+TTAN
+VNDM
+CHRM
+MANG
+IRON
+COBT
+NICK
+CPPR- electrolyzes, pressure proof, GREAT heat conductor, oxidises
+ZINC- unrusts other metals but increases its own rust value, when it gets hot, it cannot break into BRMT,  green burning flame
+GALM-galium
+GMNM-germanium
+ARIC
+SLIM-selenium
+BRMN
+KRPT
+RBDM
+STRO
+YTRI
+ZIRC-pants
+NBIM
+MLDM
+TECH
+RUTH-rutherfordium
+RHDM
+PLDM
+
+other stuff:
+BLCH-kills plant,vine,seed, all viruses, and all life. turns wood into sawdust, turn rock into stone, causes a ton of rust
+BRSS-strong material, mildly pressure resistant (if pressure too high can break), kills VIRS and is pretty corrosion resistant. pretty good conductor also
+EMLD
+RUBY
+MGNT-acts like RPEL for some things but not as strong, gets stronger the colder it is and the more there are
+DFLM-colored flame, it's a flame... that's colored... look CFLM was taken ok don't blame me. when photons pass through, color gets changed
+HIFQ-high frequency, goes through everything except certain metals and electronics, when passing through FILT, turns back into photons, does not conduct but heats things by being inside
+LOFQ-low frequency, goes through everything except certain metals and water, gold and platinum reflect it, heats up when passing through objects, conducts.
+ATEN-when sparked generates LOFQ outward, mainly horizontal
+ 
+changes:
+THRM-different mixes of different elements changes how THRM burns, THRM+SAND makes it burn slower (conduct less), while other mixes of fuels and oxidizers, such as titanium makes it burn better (ignites at a lower temprature)

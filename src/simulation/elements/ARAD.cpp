@@ -5,7 +5,7 @@ static void create(ELEMENT_CREATE_FUNC_ARGS);
 void Element::Element_ARAD()
 {
 	Identifier = "DEFAULT_PT_ARAD";
-	Name = "ARAD";
+	Name = "aRAD";
 	Colour = 0x20E0FF_rgb;
 	MenuVisible = 1;
 	MenuSection = SC_NUCLEAR;
@@ -43,9 +43,13 @@ void Element::Element_ARAD()
 	HighTemperature = ITH;
 	HighTemperatureTransition = NT;
 
-	Update = &update;
-	Graphics = &graphics;
 	Create = &create;
+}
+
+static int update(UPDATE_FUNC_ARGS)
+{
+	
+	return 0;
 }
 
 static void create(ELEMENT_CREATE_FUNC_ARGS)

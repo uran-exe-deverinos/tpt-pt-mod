@@ -1,0 +1,5 @@
+-make THRM+sand mix burn slower at a higher temprature
+  -make list of BRMTs that change effects
+-make noble gases separate
+-make THOR actually do something
+-make ELEC 

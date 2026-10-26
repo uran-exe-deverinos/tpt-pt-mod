@@ -213,7 +213,8 @@ simulation_elem_names = [
 	'LOFQ',
 	'MPMP',
 	'OSC',
-	'OXDE'
+	'OXDE',
+	'ARAD'
 ]
 
 simulation_elem_src = []

@@ -1,6 +1,6 @@
 # Misc extensions, system files
 *.zip
-*.txt
+
 *.gz
 *.out
 *.sh
